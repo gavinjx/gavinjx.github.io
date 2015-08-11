@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://gavinjx.github.io/sitemap.xml 
+Sitemap: http://www.17yuea.com//sitemap.xml 

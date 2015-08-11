@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 测试 | 进化的程序猿]]></title>
-  <link href="http://gavinjx.github.io/categories/ce-shi/atom.xml" rel="self"/>
-  <link href="http://gavinjx.github.io/"/>
-  <updated>2015-08-12T00:09:35+08:00</updated>
-  <id>http://gavinjx.github.io/</id>
+  <title><![CDATA[Category: 测试 | 一个PHPer的博客]]></title>
+  <link href="http://www.17yuea.com//categories/ce-shi/atom.xml" rel="self"/>
+  <link href="http://www.17yuea.com//"/>
+  <updated>2015-08-12T00:28:10+08:00</updated>
+  <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
     <email><![CDATA[guojianxiang@17yuea.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[My First Page]]></title>
-    <link href="http://gavinjx.github.io/%E6%B5%8B%E8%AF%95/2015/05/30/FirstPage/"/>
+    <link href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/FirstPage/"/>
     <updated>2015-05-30T18:49:00+08:00</updated>
-    <id>http://gavinjx.github.io/%E6%B5%8B%E8%AF%95/2015/05/30/FirstPage</id>
+    <id>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/FirstPage</id>
     <content type="html"><![CDATA[<h4>测试</h4>
 
 <p>测试</p>
