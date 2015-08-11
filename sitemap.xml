@@ -5,13 +5,6 @@
     <lastmod>2015-05-30T18:49:00+08:00</lastmod>
   </url>
   <url>
-    <loc>http://gavinjx.github.io/2015/05/30/FirstPage/</loc>
-    <lastmod>2015-05-30T18:49:00+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://gavinjx.github.io/blog/about/</loc>
-  </url>
-  <url>
     <loc>http://gavinjx.github.io/archives/</loc>
   </url>
   <url>
@@ -21,13 +14,16 @@
     <loc>http://gavinjx.github.io/</loc>
   </url>
   <url>
-    <loc>http://gavinjx.github.io/blog/categories/</loc>
+    <loc>http://gavinjx.github.io/blog/about/</loc>
+  </url>
+  <url>
+    <loc>http://gavinjx.github.io/about/</loc>
   </url>
   <url>
     <loc>http://gavinjx.github.io/categories/</loc>
   </url>
   <url>
-    <loc>http://gavinjx.github.io/about/</loc>
+    <loc>http://gavinjx.github.io/blog/categories/</loc>
   </url>
   <url>
     <loc>http://gavinjx.github.io/categories/ce-shi/</loc>
