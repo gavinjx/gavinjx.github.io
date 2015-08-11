@@ -4,7 +4,7 @@
   <title><![CDATA[一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-08-12T00:28:10+08:00</updated>
+  <updated>2015-08-12T00:32:53+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -14,16 +14,16 @@
 
   
   <entry>
-    <title type="html"><![CDATA[My First Page]]></title>
-    <link href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/FirstPage/"/>
+    <title type="html"><![CDATA[TestPage]]></title>
+    <link href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test/"/>
     <updated>2015-05-30T18:49:00+08:00</updated>
-    <id>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/FirstPage</id>
+    <id>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test</id>
     <content type="html"><![CDATA[<h4>测试</h4>
 
 <p>测试</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">echo</span> <span class="s1">&#39;Test&#39;</span> <span class="p">;</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">echo</span> <span class="s1">&#39;Hello World!&#39;</span> <span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>

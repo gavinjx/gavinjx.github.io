@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 测试 | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//categories/ce-shi/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-08-12T00:28:10+08:00</updated>
+  <updated>2015-08-12T00:32:53+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -14,15 +14,15 @@
 
   
   <entry>
-    <title type="html"><![CDATA[My First Page]]></title>
-    <link href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/FirstPage/"/>
+    <title type="html"><![CDATA[TestPage]]></title>
+    <link href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test/"/>
     <updated>2015-05-30T18:49:00+08:00</updated>
-    <id>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/FirstPage</id>
+    <id>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test</id>
     <content type="html"><![CDATA[<h4>测试</h4>
 
 <p>测试</p>
 
-<pre><code class="php">    echo 'Test' ;
+<pre><code class="php">    echo 'Hello World!' ;
 </code></pre>
 ]]></content>
   </entry>
