@@ -5,12 +5,12 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>TestPage - 一个PHPer的博客</title>
+	<title>一个PHPer的博客</title>
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content="TestPage">
-	<meta name="keywords" content="test">
+	<meta name="description" content="2015-08-12T16:05:35+08:00 http://www.17yuea.com// Octopress 2015-05-30T18:49:00+08:00 http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test This &hellip;">
+	
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -19,7 +19,7 @@
 
 	<link href="" rel="alternate" title="一个PHPer的博客" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test/">
+	<link rel="canonical" href="http://www.17yuea.com//tags/atom.xml">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -89,41 +89,27 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
-	<h1 class="title" itemprop="name">TestPage</h1>
-	<div class="meta">
-		<div class="date">
-			
+				<div id="content" class="inner"><?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-
-
-
-
-
-
-
-  
-
-
+  <title><![CDATA[一个PHPer的博客]]></title>
+  <link href="http://www.17yuea.com//atom.xml" rel="self"/>
+  <link href="http://www.17yuea.com//"/>
+  <updated>2015-08-12T16:05:35+08:00</updated>
+  <id>http://www.17yuea.com//</id>
+  <author>
+    <name><![CDATA[Gavin Jx]]></name>
+    <email><![CDATA[guojianxiang@17yuea.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-<time datetime="2015-05-30T18:49:00+08:00" data-updated="true" itemprop="datePublished">May 30</time>
-			<!-- 
-			
-			
-
-			
-			
-			
-
-			
-			  
-			
-			<time datetime="2015-05-30T18:49:00+08:00" itemprop="datePublished">May 30</time> -->
-			</div>
-	</div>
-	<div class="entry-content" itemprop="articleBody"><p>This is a Test Page!</p>
+  <entry>
+    <title type="html"><![CDATA[TestPage]]></title>
+    <link href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test/"/>
+    <updated>2015-05-30T18:49:00+08:00</updated>
+    <id>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test</id>
+    <content type="html"><![CDATA[<p>This is a Test Page!</p>
 
 <!-- more -->
 
@@ -134,88 +120,10 @@
 </pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">echo</span> <span class="s1">&#39;Hello World!&#39;</span> <span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
+]]></content>
+  </entry>
   
-
-<span class="byline author vcard">由 <span class="fn">Gavin Jx</span> 发表，</span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2015-06-30T18:49:00+08:00" class="updated" itemprop="dateModified"> 2015-06-30 18:49 </time> 更新  | 
-      
-
-
-	<a class='category' href='/categories/ce-shi/'>测试</a>
-
-
-
-      
-
-<span class="tags">
-  
-    <a class='tag' href='/tags/php/'>php</a>, <a class='tag' href='/tags/test/'>test</a>, <a class='tag' href='/tags/ni-hao/'>你好</a>
-  
-</span>
-
-
-    </p>
-    
-    <p class="meta">
-      
-      
-    </p>
-  </footer>
-</article>
-
-<!--  -->
-<!-- 多说 -->
-
-  <section>
-   
-
-
-<!-- 多说评论框 start -->
-<div class="ds-thread" data-thread-key="/%E6%B5%8B%E8%AF%95/2015/05/30/Test" data-title="TestPage" data-url="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-    var duoshuoQuery = {short_name:"gavinjx"};
-    (function() {
-
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
-        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0]
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
-     })();
- </script>
- <!-- 多说公共JS代码 end -->
- 
-  </section>
- 
-<aside class="sidebar">
-  
-    <!--  -->
-  
-</aside>
+</feed>
 </div>
 			</div>
 			<footer id="footer" class="inner">Copyright &copy; 2015

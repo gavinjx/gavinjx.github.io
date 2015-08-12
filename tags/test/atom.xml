@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Blog Archives - 一个PHPer的博客</title>
+	<title>标签: test - 一个PHPer的博客</title>
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content=" 2015 May 30 测试 php, test, 你好 TestPage ">
+	<meta name="description" content="标签: test">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="" rel="alternate" title="一个PHPer的博客" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://www.17yuea.com//blog/archives/">
+	<link rel="canonical" href="http://www.17yuea.com//tags/test/atom.xml">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -89,45 +89,38 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner"><div itemscope itemtype="http://schema.org/Blog">
+				<div id="content" class="inner"><?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-	
+  <title><![CDATA[标签: test | 一个PHPer的博客]]></title>
+  <link href="http://www.17yuea.com//tags/test/atom.xml" rel="self"/>
+  <link href="http://www.17yuea.com//"/>
+  <updated>2015-08-12T16:05:35+08:00</updated>
+  <id>http://www.17yuea.com//</id>
+  <author>
+    <name><![CDATA[Gavin Jx]]></name>
+    <email><![CDATA[guojianxiang@17yuea.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
-
-	
-	
-	<section class="archives"><h1 class="year">2015</h1>
-
-<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<span class="date"><time datetime="2015-05-30T18:49:00+08:00" itemprop="datePublished">May 30</time></span>
-		<br>
-			
-			  <span class="categories"><a class='category' href='/categories/ce-shi/'>测试</a></span>
-			
-			
-			  <span class="tags"><a class='tag' href='/tags/php/'>php</a>, <a class='tag' href='/tags/test/'>test</a>, <a class='tag' href='/tags/ni-hao/'>你好</a></span>
-			
-			
-		<!-- <span class="tags">
-
-<span class="tags">
   
-    <a class='tag' href='/tags/php/'>php</a>, <a class='tag' href='/tags/test/'>test</a>, <a class='tag' href='/tags/ni-hao/'>你好</a>
+  <entry>
+    <title type="html"><![CDATA[TestPage]]></title>
+    <link href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test/"/>
+    <updated>2015-05-30T18:49:00+08:00</updated>
+    <id>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test</id>
+    <content type="html"><![CDATA[<p>This is a Test Page!</p>
+
+<!-- more -->
+
+
+<pre><code class="php">    echo 'Hello World!' ;
+</code></pre>
+]]></content>
+  </entry>
   
-</span>
-
-</span> -->
-
-	    
-	</div>
-	<h1 class="title" itemprop="name"><a href="/%E6%B5%8B%E8%AF%95/2015/05/30/Test/">TestPage</a></h1>
-
-</article>
-
-
-  </section>
-</div></div>
+</feed>
+</div>
 			</div>
 			<footer id="footer" class="inner">Copyright &copy; 2015
 
