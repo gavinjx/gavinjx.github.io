@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>标签: 你好 - 一个PHPer的博客</title>
+	<title>标签: hi - 一个PHPer的博客</title>
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content="标签: 你好">
+	<meta name="description" content="标签: hi">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="" rel="alternate" title="一个PHPer的博客" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://www.17yuea.com//tags/ni-hao/atom.xml">
+	<link rel="canonical" href="http://www.17yuea.com//tags/hi/atom.xml">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -92,8 +92,8 @@
 				<div id="content" class="inner"><?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[标签: 你好 | 一个PHPer的博客]]></title>
-  <link href="http://www.17yuea.com//tags/ni-hao/atom.xml" rel="self"/>
+  <title><![CDATA[标签: hi | 一个PHPer的博客]]></title>
+  <link href="http://www.17yuea.com//tags/hi/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
   <updated>2015-08-12T16:07:30+08:00</updated>
   <id>http://www.17yuea.com//</id>
