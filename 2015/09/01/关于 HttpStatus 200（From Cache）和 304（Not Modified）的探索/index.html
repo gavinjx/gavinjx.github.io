@@ -4,6 +4,9 @@
 
 <blockquote><p>问题的起源在于晚上把一个demo部署到阿里云上，在配置nginx的时候，设置了expire。但是当用Chrome检查Network的时候，发现已经设置了expire的css，js，image 总是返回304（Not Modified）的状态。因为之前服务器缓存资源出现返回304的问题，所以就打算看下到底是什么问题</p></blockquote>
 
+<!-- more -->
+
+
 <p>首先，我断定自己的expire是没有设置错的：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
