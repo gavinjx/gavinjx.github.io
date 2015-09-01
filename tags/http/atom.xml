@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>一个PHPer的博客</title>
+	<title>标签: http - 一个PHPer的博客</title>
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content="2015-09-01T23:26:09+08:00 http://www.17yuea.com// Octopress 2015-09-01T23:00:00+08:00 http://www.17yuea.com//web/2015/09/01/关于 HttpStatus 200（From &hellip;">
+	<meta name="description" content="标签: http">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="" rel="alternate" title="一个PHPer的博客" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://www.17yuea.com//atom.xml">
+	<link rel="canonical" href="http://www.17yuea.com//tags/http/atom.xml">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -92,8 +92,8 @@
 				<div id="content" class="inner"><?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[一个PHPer的博客]]></title>
-  <link href="http://www.17yuea.com//atom.xml" rel="self"/>
+  <title><![CDATA[标签: http | 一个PHPer的博客]]></title>
+  <link href="http://www.17yuea.com//tags/http/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
   <updated>2015-09-01T23:26:09+08:00</updated>
   <id>http://www.17yuea.com//</id>
@@ -120,15 +120,11 @@
 
 <p>首先，我断定自己的expire是没有设置错的：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> location ~ .*.(css|js)$ {
-</span><span class='line'>            expires 30d;
-</span><span class='line'>            break;
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>        location ~ .*.(css|js)$ {
+                expires 30d;
+                break;
+        }
+</code></pre>
 
 <p>于是开始查看是否是ETag的配置问题？</p>
 
@@ -261,25 +257,6 @@
 <li><a href="http://stackoverflow.com/questions/1665082/http-status-code-200-cache-vs-status-code-304">HTTP status code 200 (cache) vs status code 304?</a></li>
 <li><a href="http://www-jo.se/f.pfleger/firefox-reload">Reload vs. Refresh in Firefox (Cache-Control)</a></li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[TestPage]]></title>
-    <link href="http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test/"/>
-    <updated>2015-05-30T18:49:00+08:00</updated>
-    <id>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test</id>
-    <content type="html"><![CDATA[<p>This is a Test Page!</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">echo</span> <span class="s1">&#39;Hello World!&#39;</span> <span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>

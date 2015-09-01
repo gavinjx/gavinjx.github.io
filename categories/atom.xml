@@ -9,7 +9,7 @@
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content="2015-09-01T23:21:42+08:00 http://www.17yuea.com// Octopress 2015-09-01T00:00:00+08:00 http://www.17yuea.com//2015/09/01/ &hellip;">
+	<meta name="description" content="2015-09-01T23:26:09+08:00 http://www.17yuea.com// Octopress 2015-09-01T23:00:00+08:00 http://www.17yuea.com//web/2015/09/01/关于 HttpStatus 200（From &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,7 +95,7 @@
   <title><![CDATA[一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-01T23:21:42+08:00</updated>
+  <updated>2015-09-01T23:26:09+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -105,10 +105,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[关于httpstatus200fromcache和304notmodified的探索]]></title>
-    <link href="http://www.17yuea.com//2015/09/01/%E5%85%B3%E4%BA%8EHttpStatus200FromCache%E5%92%8C304NotModified%E7%9A%84%E6%8E%A2%E7%B4%A2/"/>
-    <updated>2015-09-01T00:00:00+08:00</updated>
-    <id>http://www.17yuea.com//2015/09/01/关于HttpStatus200FromCache和304NotModified的探索</id>
+    <title type="html"><![CDATA[关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索]]></title>
+    <link href="http://www.17yuea.com//web/2015/09/01/%E5%85%B3%E4%BA%8E%20HttpStatus%20200%EF%BC%88From%20Cache%EF%BC%89%E5%92%8C%20304%EF%BC%88Not%20Modified%EF%BC%89%E7%9A%84%E6%8E%A2%E7%B4%A2/"/>
+    <updated>2015-09-01T23:00:00+08:00</updated>
+    <id>http://www.17yuea.com//web/2015/09/01/关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索</id>
     <content type="html"><![CDATA[<h4>关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索</h4>
 
 <p>今晚走了很长时间的弯路，最后发现问题在于 <strong>url load 访问</strong> 和 <strong>Command+R</strong> 刷新上，道路曲折但是很有意思。</p>
