@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.17yuea.com//2015/09/01/%E5%85%B3%E4%BA%8E%20HttpStatus%20200%EF%BC%88From%20Cache%EF%BC%89%E5%92%8C%20304%EF%BC%88Not%20Modified%EF%BC%89%E7%9A%84%E6%8E%A2%E7%B4%A2/</loc>
+    <lastmod>2015-09-01T00:00:00+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://www.17yuea.com//%E6%B5%8B%E8%AF%95/2015/05/30/Test/</loc>
     <lastmod>2015-05-30T18:49:00+08:00</lastmod>
   </url>
@@ -29,15 +33,15 @@
     <loc>http://www.17yuea.com//categories/</loc>
   </url>
   <url>
-    <loc>http://www.17yuea.com//categories/ce-shi/</loc>
+    <loc>http://www.17yuea.com//tags/php/</loc>
   </url>
   <url>
     <loc>http://www.17yuea.com//tags/mysql/</loc>
   </url>
   <url>
-    <loc>http://www.17yuea.com//tags/php/</loc>
+    <loc>http://www.17yuea.com//tags/web/</loc>
   </url>
   <url>
-    <loc>http://www.17yuea.com//tags/web/</loc>
+    <loc>http://www.17yuea.com//categories/ce-shi/</loc>
   </url>
 </urlset>
