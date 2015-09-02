@@ -1,3 +1,7 @@
 @import .container .left-col{
-	background-image: /images/bg.jpg;
+	background-image: url(/images/bg.jpg);
+	background-size: cover;
+	height: 100%;
+	position: fixed;
+	width: 270px;
 }
