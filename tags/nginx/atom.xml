@@ -95,7 +95,7 @@
   <title><![CDATA[标签: nginx | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//tags/nginx/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-02T11:41:20+08:00</updated>
+  <updated>2015-09-02T12:33:03+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -118,10 +118,10 @@
 
 <p>首先，我断定自己的expire是没有设置错的：</p>
 
-<pre><code>        location ~ .*.(css|js)$ {
-                expires 30d;
-                break;
-        }
+<pre><code class="nginx">    location ~ .*.(css|js)$ {
+        expires 30d;
+        break;
+    }
 </code></pre>
 
 <p>于是开始查看是否是ETag的配置问题？</p>
@@ -135,106 +135,114 @@
 
 <p>ETag的工作原理是：</p>
 
-<ol>
-<li><p>第一次访问， nginx会返回ETag值，浏览器会记录下来</p>
+<ul>
+<li>第一次访问， nginx会返回ETag值，浏览器会记录下来</li>
+</ul>
 
-<p> <strong>Request</strong></p>
 
-<pre><code class="`"> Accept:text/css,*/*;q=0.1
- Accept-Encoding:gzip, deflate, sdch
- Accept-Language:zh-CN,zh;q=0.8,en;q=0.6
- Cache-Control:no-cache
- Connection:keep-alive
- Host:123.57.161.203:81
- Pragma:no-cache
- Referer:http://123.57.161.203:81/
- User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.6 Safari/537.36
- X-FirePHP-Version:0.0.6
+<p>Request</p>
+
+<pre><code class="http">    Accept:text/css,*/*;q=0.1
+    Accept-Encoding:gzip, deflate, sdch
+    Accept-Language:zh-CN,zh;q=0.8,en;q=0.6
+    Cache-Control:no-cache
+    Connection:keep-alive
+    Host:123.57.161.203:81
+    Pragma:no-cache
+    Referer:http://123.57.161.203:81/
+    User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.6 Safari/537.36
+    X-FirePHP-Version:0.0.6
 </code></pre>
 
-<p> <strong>Response</strong></p>
+<p>Response</p>
 
-<pre><code class="`"> Status Code:200 OK
+<pre><code class="http">    Status Code:200 OK
 
- Accept-Ranges:bytes
- Cache-Control:max-age=2592000
- Connection:keep-alive
- Content-Length:32628
- Content-Type:text/css
- Date:Tue, 01 Sep 2015 14:06:27 GMT
- ETag:"55e57588-7f74"
- Expires:Thu, 01 Oct 2015 14:06:27 GMT
- Last-Modified:Tue, 01 Sep 2015 09:53:12 GMT
- Server:nginx/1.8.0
-</code></pre></li>
-<li><p>第二次访问时，浏览器会带着上次nginx返回的ETag值作为If-None-Match的值，发起请求，这时候nginx会把If-None-Match值与该页面对应的ETag值进行比较，如果不相等则返回200，重新下载资源；如果二者相等，则返回304，浏览器调用本地缓存。</p>
-
-<p> <strong>Request</strong></p>
-
-<pre><code class="`"> Accept:text/css,*/*;q=0.1
- Accept-Encoding:gzip, deflate, sdch
- Accept-Language:zh-CN,zh;q=0.8,en;q=0.6
- Cache-Control:max-age=0
- Connection:keep-alive
- Host:123.57.161.203:81
- If-Modified-Since:Tue, 01 Sep 2015 09:53:12 GMT
- If-None-Match:"55e57588-7f74"
- Referer:http://123.57.161.203:81/
- User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.6 Safari/537.36
- X-FirePHP-Version:0.0.6
+    Accept-Ranges:bytes
+    Cache-Control:max-age=2592000
+    Connection:keep-alive
+    Content-Length:32628
+    Content-Type:text/css
+    Date:Tue, 01 Sep 2015 14:06:27 GMT
+    ETag:"55e57588-7f74"
+    Expires:Thu, 01 Oct 2015 14:06:27 GMT
+    Last-Modified:Tue, 01 Sep 2015 09:53:12 GMT
+    Server:nginx/1.8.0
 </code></pre>
 
-<p> <strong>Response</strong></p>
+<ul>
+<li>第二次访问时，浏览器会带着上次nginx返回的ETag值作为If-None-Match的值，发起请求，这时候nginx会把If-None-Match值与该页面对应的ETag值进行比较，如果不相等则返回200，重新下载资源；如果二者相等，则返回304，浏览器调用本地缓存。</li>
+</ul>
 
-<pre><code class="`"> Status Code:304 Not Modified
 
- Cache-Control:max-age=2592000
- Connection:keep-alive
- Date:Tue, 01 Sep 2015 14:10:08 GMT
- ETag:"55e57588-7f74"
- Expires:Thu, 01 Oct 2015 14:10:08 GMT
- Last-Modified:Tue, 01 Sep 2015 09:53:12 GMT
- Server:nginx/1.8.0
+<p>Request</p>
+
+<pre><code class="http">    Accept:text/css,*/*;q=0.1
+    Accept-Encoding:gzip, deflate, sdch
+    Accept-Language:zh-CN,zh;q=0.8,en;q=0.6
+    Cache-Control:max-age=0
+    Connection:keep-alive
+    Host:123.57.161.203:81
+    If-Modified-Since:Tue, 01 Sep 2015 09:53:12 GMT
+    If-None-Match:"55e57588-7f74"
+    Referer:http://123.57.161.203:81/
+    User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.6 Safari/537.36
+    X-FirePHP-Version:0.0.6
 </code></pre>
 
-<p> <strong>但是比较纳闷的是为什么本地有缓存了，设置expire也成功了，浏览器不直接读取cache内容而是先去web服务器请求了一次？</strong></p>
+<p>Response</p>
 
-<p> 正常的 from cache 的 Request（应该说没有发起请求） 和 Response 应该是这样的：</p>
+<pre><code class="http">    Status Code:304 Not Modified
 
-<p> <strong>Request</strong></p>
-
-<pre><code class="`"> -
+    Cache-Control:max-age=2592000
+    Connection:keep-alive
+    Date:Tue, 01 Sep 2015 14:10:08 GMT
+    ETag:"55e57588-7f74"
+    Expires:Thu, 01 Oct 2015 14:10:08 GMT
+    Last-Modified:Tue, 01 Sep 2015 09:53:12 GMT
+    Server:nginx/1.8.0
 </code></pre>
 
-<p> <strong>Response</strong></p>
+<p><strong>但是比较纳闷的是为什么本地有缓存了，设置expire也成功了，浏览器不直接读取cache内容而是先去web服务器请求了一次？</strong></p>
 
-<pre><code class="`"> Status Code:200 OK (from cache)
+<p>正常的 from cache 的 Request（应该说没有发起请求） 和 Response 应该是这样的：</p>
 
- Accept-Ranges:bytes
- Cache-Control:max-age=2592000
- Content-Length:32628
- Content-Type:text/css
- Date:Tue, 01 Sep 2015 14:12:56 GMT
- ETag:"55e57588-7f74"
- Expires:Thu, 01 Oct 2015 14:12:56 GMT
- Last-Modified:Tue, 01 Sep 2015 09:53:12 GMT
- Server:nginx/1.8.0
+<p>Request</p>
+
+<pre><code class="http">        -
 </code></pre>
 
- 后来看到知乎的一个问题 <a href="http://www.zhihu.com/question/28725359">阿里云存储如何让浏览器始终以200 (from cache)缓存图片</a>，里面有一句话：
+<p>Response</p>
+
+<pre><code class="http">    Status Code:200 OK (from cache)
+
+    Accept-Ranges:bytes
+    Cache-Control:max-age=2592000
+    Content-Length:32628
+    Content-Type:text/css
+    Date:Tue, 01 Sep 2015 14:12:56 GMT
+    ETag:"55e57588-7f74"
+    Expires:Thu, 01 Oct 2015 14:12:56 GMT
+    Last-Modified:Tue, 01 Sep 2015 09:53:12 GMT
+    Server:nginx/1.8.0
+</code></pre>
+
+<p>后来看到知乎的一个问题 <a href="http://www.zhihu.com/question/28725359">阿里云存储如何让浏览器始终以200 (from cache)缓存图片</a>，里面有一句话：</p>
 
 <blockquote><p>通过大家的回答和我自己的实验发现（Chrome上），对于阿里云的云存储，加大Cache-Control的max-age是有效的，这点我之前也试过，但是像 @yuanyuanVivian说的，是在输入URL按下回车时有效，直接刷新时图片还是无法直接加载缓存，而且无法禁用阿里云存储Etag.</p></blockquote>
 
-<p> 受到启发，终于找到问题所在了：</p>
+<p>受到启发，终于找到问题所在了：</p>
 
 <ul>
 <li>弯路2：URL回车或者链接访问URL 与 刷新或者强制刷新（mac下的Command+R，win下的F5，Ctrl+F5等）这两种方式浏览器的处理方式是不一样的：前者操作方式，浏览器获取资源的时候不会设置 <strong>Cache-Control:max-age=0</strong>，所以如果expire设置的max-age如果仍有效的话会优先从本地cache中获取；但是后者发起Request的时候浏览器给 header 里设置的 <strong>Cache-Control:max-age=0</strong>，可以参照上文第2次访问请求。我们都知道一旦max-age为0，则不会从本地cache获取数据了，所以会发起一次http请求，nginx根据header里传来的<strong>If-Modified-Since</strong>或者<strong>If-None-Match</strong>分别与<strong>Last-Modified</strong>，<strong>Etag</strong>做对比，从而做出返回304还是200的选择，而强制刷新是将 hreader 设置为 <strong>Cache-Control:no-cache</strong>，直接返回200，下载资源.</li>
 </ul>
 
 
-<p> 所以说 设置的 expire 是生效的。正常情况用户点链接的话，属于加载，不属于刷新，缓存的静态资源肯定会优先从本地cache获取，但是刷新的时候就避免不了一次http请求获取304了。</p>
+<p>所以说 设置的 expire 是生效的。正常情况用户点链接的话，属于加载，不属于刷新，缓存的静态资源肯定会优先从本地cache获取，但是刷新的时候就避免不了一次http请求获取304了。</p>
 
-<p> <strong>Expire 和 ETag 都有缓存的作用，但是区别在于：</strong></p>
+<hr />
+
+<p><strong>Expire 和 ETag 都有缓存的作用，但是区别在于：</strong></p>
 
 <ol>
 <li><p>Expire 第二次访问的时候会直接从 本地cache获取，即 200（From Cache），ETag会发起一次http请求，最后返回304（Not Modified）</p></li>
@@ -242,9 +250,7 @@
 </ol>
 
 
-<p> 所以在有多台web服务器的情况下要优先使用Expire.</p></li>
-</ol>
-
+<p>所以在有多台web服务器的情况下要优先使用Expire.</p>
 
 <p>具体nginx对Expire和Etag使用优先级是什么？这个只能阅读源码，以后探索了</p>
 
