@@ -9,7 +9,7 @@
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content="2015-09-01T23:26:09+08:00 http://www.17yuea.com// Octopress 2015-09-01T23:00:00+08:00 http://www.17yuea.com//web/2015/09/01/关于 HttpStatus 200（From &hellip;">
+	<meta name="description" content="2015-09-02T11:31:55+08:00 http://www.17yuea.com// Octopress 2015-09-01T23:00:00+08:00 http://www.17yuea.com//web/2015/09/01/关于 HttpStatus 200（From &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,7 +95,7 @@
   <title><![CDATA[一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-01T23:26:09+08:00</updated>
+  <updated>2015-09-02T11:31:55+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -231,14 +231,16 @@
 
 <blockquote><p>通过大家的回答和我自己的实验发现（Chrome上），对于阿里云的云存储，加大Cache-Control的max-age是有效的，这点我之前也试过，但是像 @yuanyuanVivian说的，是在输入URL按下回车时有效，直接刷新时图片还是无法直接加载缓存，而且无法禁用阿里云存储Etag.</p></blockquote>
 
-<p> 受到启发，终于找到问题所在了：</p></li>
-<li><p>弯路2：URL回车或者链接访问URL 与 刷新或者强制刷新（mac下的Command+R，win下的F5，Ctrl+F5等）这两种方式浏览器的处理方式是不一样的：前者操作方式，浏览器获取资源的时候不会设置 <strong>Cache-Control:max-age=0</strong>，所以如果expire设置的max-age如果仍有效的话会优先从本地cache中获取；但是后者发起Request的时候浏览器给 header 里设置的 <strong>Cache-Control:max-age=0</strong>，可以参照上文第2次访问请求。我们都知道一旦max-age为0，则不会从本地cache获取数据了，所以会发起一次http请求，nginx根据header里传来的<strong>If-Modified-Since</strong>或者<strong>If-None-Match</strong>分别与<strong>Last-Modified</strong>，<strong>Etag</strong>做对比，从而做出返回304还是200的选择，而强制刷新是将 hreader 设置为 <strong>Cache-Control:no-cache</strong>，直接返回200，下载资源.</p></li>
-</ol>
+<p> 受到启发，终于找到问题所在了：</p>
+
+<ul>
+<li>弯路2：URL回车或者链接访问URL 与 刷新或者强制刷新（mac下的Command+R，win下的F5，Ctrl+F5等）这两种方式浏览器的处理方式是不一样的：前者操作方式，浏览器获取资源的时候不会设置 <strong>Cache-Control:max-age=0</strong>，所以如果expire设置的max-age如果仍有效的话会优先从本地cache中获取；但是后者发起Request的时候浏览器给 header 里设置的 <strong>Cache-Control:max-age=0</strong>，可以参照上文第2次访问请求。我们都知道一旦max-age为0，则不会从本地cache获取数据了，所以会发起一次http请求，nginx根据header里传来的<strong>If-Modified-Since</strong>或者<strong>If-None-Match</strong>分别与<strong>Last-Modified</strong>，<strong>Etag</strong>做对比，从而做出返回304还是200的选择，而强制刷新是将 hreader 设置为 <strong>Cache-Control:no-cache</strong>，直接返回200，下载资源.</li>
+</ul>
 
 
-<p>所以说 设置的 expire 是生效的。正常情况用户点链接的话，属于加载，不属于刷新，缓存的静态资源肯定会优先从本地cache获取，但是刷新的时候就避免不了一次http请求获取304了。</p>
+<p> 所以说 设置的 expire 是生效的。正常情况用户点链接的话，属于加载，不属于刷新，缓存的静态资源肯定会优先从本地cache获取，但是刷新的时候就避免不了一次http请求获取304了。</p>
 
-<p><strong>Expire 和 ETag 都有缓存的作用，但是区别在于：</strong></p>
+<p> <strong>Expire 和 ETag 都有缓存的作用，但是区别在于：</strong></p>
 
 <ol>
 <li><p>Expire 第二次访问的时候会直接从 本地cache获取，即 200（From Cache），ETag会发起一次http请求，最后返回304（Not Modified）</p></li>
@@ -246,7 +248,9 @@
 </ol>
 
 
-<p>所以在有多台web服务器的情况下要优先使用Expire.</p>
+<p> 所以在有多台web服务器的情况下要优先使用Expire.</p></li>
+</ol>
+
 
 <p>具体nginx对Expire和Etag使用优先级是什么？这个只能阅读源码，以后探索了</p>
 
