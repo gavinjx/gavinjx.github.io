@@ -33,10 +33,16 @@
     <loc>http://www.17yuea.com//categories/</loc>
   </url>
   <url>
-    <loc>http://www.17yuea.com//tags/php/</loc>
+    <loc>http://www.17yuea.com//categories/ce-shi/</loc>
+  </url>
+  <url>
+    <loc>http://www.17yuea.com//categories/web/</loc>
   </url>
   <url>
     <loc>http://www.17yuea.com//tags/mysql/</loc>
+  </url>
+  <url>
+    <loc>http://www.17yuea.com//tags/php/</loc>
   </url>
   <url>
     <loc>http://www.17yuea.com//tags/web/</loc>
@@ -46,11 +52,5 @@
   </url>
   <url>
     <loc>http://www.17yuea.com//tags/nginx/</loc>
-  </url>
-  <url>
-    <loc>http://www.17yuea.com//categories/ce-shi/</loc>
-  </url>
-  <url>
-    <loc>http://www.17yuea.com//categories/web/</loc>
   </url>
 </urlset>
