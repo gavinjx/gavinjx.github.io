@@ -96,7 +96,7 @@
   <title><![CDATA[Category: 树莓派 | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//categories/shu-mei-pai/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-06T23:25:41+08:00</updated>
+  <updated>2015-09-06T23:31:36+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -115,10 +115,23 @@
 <!--more-->
 
 
-<p>大学里学的电路图早已忘的一干二净，听起来实现起来有点难度的样子.
-* 首先找来了树莓派的接口图（我的小派是二代的）：
-<img src="/images/pi_io.png" alt="树莓派接口图" />
-*</p>
+<p>大学里学的电路图早已忘的一干二净，听起来实现起来有点难度的样子.</p>
+
+<ul>
+<li>首先找来了树莓派的接口图（我的小派是二代的）：</li>
+</ul>
+
+
+<p><img src="/images/pi_io.png" alt="树莓派接口图" /></p>
+
+<ul>
+<li>找来淘宝的蜂鸣器图片介绍：</li>
+</ul>
+
+
+<p><img src="/images/fengmingqi_io.png" alt="有源蜂鸣器结构图" /></p>
+
+<p><img src="/images/fengmingqi_io_shiwu.png" alt="有源蜂鸣器结构图" /></p>
 ]]></content>
   </entry>
   
