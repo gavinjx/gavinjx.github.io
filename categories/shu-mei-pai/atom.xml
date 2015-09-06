@@ -96,7 +96,7 @@
   <title><![CDATA[Category: 树莓派 | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//categories/shu-mei-pai/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-07T00:17:08+08:00</updated>
+  <updated>2015-09-07T00:25:15+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -180,7 +180,7 @@
 
 <p>标有 <code>+</code> 的就是蜂鸣器的正极，所以当把正极接到5V接口上，并把另一个接口接到随便一个IO口上时，有源蜂鸣器便正常工作了，如下图所示，黑线接的是正极，接到2口上，白线接到9口GPIO4上：</p>
 
-<p><img src="/images/fengmingqi_changxiang.png" alt="有源蜂鸣器长响，正常工作图" /></p>
+<p><img src="/images/fengmingqi_changxiang.jpg" alt="有源蜂鸣器长响，正常工作图" /></p>
 
 <ul>
 <li>证明蜂鸣器没有问题后，接下来就考虑怎么用python控制蜂鸣器了</li>
@@ -232,7 +232,7 @@ while True:
 
 <p>杜邦线插入的位置如下：</p>
 
-<p><img src="/images/fengmingqi_channel.png" alt="有源蜂鸣器python引脚图" /></p>
+<p><img src="/images/fengmingqi_channel.jpg" alt="有源蜂鸣器python引脚图" /></p>
 
 <p>这样每隔三秒，蜂鸣器会报两次，听着爽爽的~</p>
 
