@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>标签 - 一个PHPer的博客</title>
+	<title>标签: php - 一个PHPer的博客</title>
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content=" Web [ 1 ] Php [ 1 ] Jul 28 ">
+	<meta name="description" content="标签: php">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="" rel="alternate" title="一个PHPer的博客" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://www.17yuea.com//blog/categories/">
+	<link rel="canonical" href="http://www.17yuea.com//tags/php/atom.xml">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -90,55 +90,34 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner"><article class="page">
-    
-    <h1 class="title">标签</h1>
-    
-    <div class="entry-content">
+				<div id="content" class="inner"><?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-      <ul>
-
-    <li><a href="/blog/categories/web/">Web</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/php/">Php</a> [ 1 ]</li>
-
-</ul>
-
-
-
-      
-        <footer>
-          <p class="meta">
-            
-            
-
-
-
-
-
-
-
+  <title><![CDATA[标签: php | 一个PHPer的博客]]></title>
+  <link href="http://www.17yuea.com//tags/php/atom.xml" rel="self"/>
+  <link href="http://www.17yuea.com//"/>
+  <updated>2015-09-06T13:51:51+08:00</updated>
+  <id>http://www.17yuea.com//</id>
+  <author>
+    <name><![CDATA[Gavin Jx]]></name>
+    <email><![CDATA[guojianxiang@17yuea.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
+  <entry>
+    <title type="html"><![CDATA[PHP调试工具-Xdebug]]></title>
+    <link href="http://www.17yuea.com//php/2015/09/06/PHP%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7Xdebug/"/>
+    <updated>2015-09-06T23:00:00+08:00</updated>
+    <id>http://www.17yuea.com//php/2015/09/06/PHP调试工具Xdebug</id>
+    <content type="html"><![CDATA[<blockquote><p>刚刚过完了三天的小长假，假期没事的时候整理了一下Xdebug的使用.</p></blockquote>
 
+<!--more-->
 
-<time datetime="2013-07-28T23:11:00+08:00" data-updated="true" itemprop="datePublished">Jul 28</time>
-            
-            
-          </p>
-          
-        </footer>
-      
-
-    </div>
-</article>
-
-
-<aside class="sidebar">
+]]></content>
+  </entry>
   
-    <!--  -->
-  
-</aside>
+</feed>
 </div>
 			</div>
 			<footer id="footer" class="inner">Copyright &copy; 2015
