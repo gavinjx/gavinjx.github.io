@@ -129,11 +129,7 @@
 <!--more-->
 
 
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>今天，补单程序突然出现bug，有两笔订单掉单了却没有补单成功</span></code></pre></td></tr></table></div></figure>
-
+<p>今天，补单程序突然出现bug，有两笔订单掉单了却没有补单成功.</p>
 
 <ul>
 <li>首先，查了下 补单脚本</li>
@@ -147,8 +143,12 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>补单脚本是守护进程控制的，但是看到这个时间点 <code>Aug20</code>，说明8.20日之后，脚本没有自动关闭，一直在执行. 所以就想看看是什么原因导致了脚本一直执行而没有退出.
-* 使用 <code>Strace</code> 命令</p>
+<p>补单脚本是守护进程控制的，但是看到这个时间点 <code>Aug20</code>，说明8.20日之后，脚本没有自动关闭，一直在执行. 所以就想看看是什么原因导致了脚本一直执行而没有退出.</p>
+
+<ul>
+<li>使用 <code>Strace</code> 命令</li>
+</ul>
+
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -179,14 +179,18 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>可以看到，程序一直卡在curl超时上，然后检查了下 补单相关的 curl 操作，发现大多数的curl没有加入连接超时时间，当DNS出现问题时，一直在等待服务器的回应，导致脚本调用的时候卡死.</p>
+<p>可以看到，程序一直卡在curl超时上，然后检查了下补单相关的 curl 操作，发现大多数的 curl 没有加入连接超时时间，当DNS出现问题时，一直在等待服务器的回应，导致脚本调用的时候卡死.</p>
 
-<p>总结一下：</p>
+<p>总结一下：Strace 还有很多用法，比如查看一段时间内调用系统函数最多的统计等等，<code>strace -p 进程ID</code> 是查看该进程的系统函数调用情况，对于异步脚本很有用！ 很多strace的用法以后会再更新~</p>
 
-<p>Strace 还有很多用法，比如查看一段时间内调用系统函数最多的统计等等，<code>strace -p 进程ID</code> 是查看该进程的系统函数调用情况，对于异步脚本很有用！ 很多strace的用法以后会再更新~</p>
+<h2><br></h2>
 
-<p>参考资料：
-1. <a href="http://www.dewen.io/q/17309/php+curl%E8%B0%83%E7%94%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%8D%A1%E6%AD%BB%EF%BC%8Cstrace%E7%BB%93%E6%9E%9C%E5%A6%82%E5%86%85">php curl调用的时候卡死，strace结果如内</a></p>
+<p>参考资料：</p>
+
+<ol>
+<li><a href="http://www.dewen.io/q/17309/php+curl%E8%B0%83%E7%94%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%8D%A1%E6%AD%BB%EF%BC%8Cstrace%E7%BB%93%E6%9E%9C%E5%A6%82%E5%86%85">php curl调用的时候卡死，strace结果如内</a></li>
+</ol>
+
 </div>
 
 
