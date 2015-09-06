@@ -9,7 +9,7 @@
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content="2015-09-06T19:01:10+08:00 http://www.17yuea.com// Octopress 2015-09-06T23:00:00+08:00 http://www.17yuea.com//php/2015/09/06/PHP调试工具Xdebug &hellip;">
+	<meta name="description" content="2015-09-06T23:25:41+08:00 http://www.17yuea.com// Octopress 2015-09-06T23:17:00+08:00 http://www.17yuea.com//%E6%A0%91%E8%8E%93%E6%B4%BE/2015/09/06/ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +96,7 @@
   <title><![CDATA[一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-06T19:01:10+08:00</updated>
+  <updated>2015-09-06T23:25:41+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -104,6 +104,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[树莓派控制有源蜂鸣器]]></title>
+    <link href="http://www.17yuea.com//%E6%A0%91%E8%8E%93%E6%B4%BE/2015/09/06/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8E%A7%E5%88%B6%E6%9C%89%E6%BA%90%E8%9C%82%E9%B8%A3%E5%99%A8/"/>
+    <updated>2015-09-06T23:17:00+08:00</updated>
+    <id>http://www.17yuea.com//%E6%A0%91%E8%8E%93%E6%B4%BE/2015/09/06/树莓派控制有源蜂鸣器</id>
+    <content type="html"><![CDATA[<blockquote><p>前几天淘的温湿度传感器和有源蜂鸣器今天终于到了，今晚10点半左右就整起来了.</p></blockquote>
+
+<!--more-->
+
+
+<p>大学里学的电路图早已忘的一干二净，听起来实现起来有点难度的样子.
+* 首先找来了树莓派的接口图（我的小派是二代的）：
+<img src="http://www.17yuea.com//images/pi_io.png" alt="树莓派接口图" />
+*</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PHP调试工具-Xdebug]]></title>
