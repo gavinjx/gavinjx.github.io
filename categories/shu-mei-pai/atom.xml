@@ -96,7 +96,7 @@
   <title><![CDATA[Category: 树莓派 | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//categories/shu-mei-pai/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-07T00:15:04+08:00</updated>
+  <updated>2015-09-07T00:15:49+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -188,74 +188,6 @@
 
 
 <p>步骤和网上的差不多，我改了下程序：</p>
-
-<pre><code class="bash">root@raspberrypi:/data/python/chuanganqi# vim libbeep.py
-</code></pre>
-
-<p>插入如下代码：</p>
-
-<pre><code class="python">import RPi.GPIO as GPIO
-import time
-PIN_NO = 12
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(PIN_NO, GPIO.OUT)
-def beep(seconds):
-     GPIO.output(PIN_NO, GPIO.HIGH)
-     time.sleep(seconds)
-     GPIO.output(PIN_NO, GPIO.LOW)
-def beepAction(secs, sleepsecs, times):
-    for i in range(times):
-        beep(secs)
-        time.sleep(sleepsecs)
-</code></pre>
-
-<pre><code class="bash">root@raspberrypi:/data/python/chuanganqi# vim alarm.py
-</code></pre>
-
-<p>插入如下代码：</p>
-
-<pre><code class="python">import RPi.GPIO as GPIO
-import time
-import libbeep
-while True:
-        print "continued"
-        libbeep.beepAction (0.05,0.05,2)
-        time.sleep(3)
-</code></pre>
-
-<p>然后执行 <code>alarm.py</code></p>
-
-<pre><code class="bash">root@raspberrypi:/data/python/chuanganqi# python alarm.py 
-</code></pre>
-
-<p>在 <code>libbeep.py</code>里<code>PIN_NO = 12</code>代表的是channel，针脚值</p>
-
-<p>杜邦线插入的位置如下：</p>
-
-<p><img src="/images/fengmingqi_channel.png" alt="有源蜂鸣器python引脚图" /></p>
-
-<p>这样每隔三秒，蜂鸣器会报两次，听着爽爽的~</p>
-
-<p><br>
-环境准备：</p>
-
-<ol>
-<li><p><a href="https://item.taobao.com/item.htm?spm=2013.1.0.0.UqdfpT&amp;id=43751062868&amp;source=superboss&amp;appId=113">二代树莓派一个</a></p></li>
-<li><p><a href="https://detail.tmall.com/item.htm?id=41231486727&amp;spm=a1z09.2.0.0.wRRwkT&amp;_u=6mh7bd0688f">有源蜂鸣器一个</a></p></li>
-<li><p><a href="https://detail.tmall.com/item.htm?id=41254478179&amp;spm=a1z09.2.0.0.y3wVBD&amp;_u=6mh7bd0d7e0">杜邦线两根</a> 我买的一沓，40根</p></li>
-</ol>
-
-
-<p><code>观月堂</code>的小π还可以，配件就算了，相对别家来说有点贵，所以选了<code>telesky</code></p>
-
-<p><br>
-参考资料：</p>
-
-<ol>
-<li><p><a href="http://www.eeboard.com/bbs/forum.php?mod=viewthread&amp;tid=39728">树莓派用蜂鸣器实现整点报时</a></p></li>
-<li><p><a href="http://www.eefocus.com/nightseas/blog/15-07/315199_48b6a.html">硬件篇（一）DIY一个树莓派扩展板</a></p></li>
-</ol>
-
 ]]></content>
   </entry>
   
