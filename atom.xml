@@ -9,7 +9,7 @@
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content="2015-09-07T00:09:59+08:00 http://www.17yuea.com// Octopress 2015-09-06T23:17:00+08:00 http://www.17yuea.com//%E6%A0%91%E8%8E%93%E6%B4%BE/2015/09/06/ &hellip;">
+	<meta name="description" content="2015-09-07T00:11:18+08:00 http://www.17yuea.com// Octopress 2015-09-06T23:17:00+08:00 http://www.17yuea.com//%E6%A0%91%E8%8E%93%E6%B4%BE/2015/09/06/ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +96,7 @@
   <title><![CDATA[一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-07T00:09:59+08:00</updated>
+  <updated>2015-09-07T00:11:18+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -266,7 +266,8 @@
 
 <p>这样每隔三秒，蜂鸣器会报两次，听着爽爽的~</p>
 
-<p>环境准备：</p>
+<p><br>
+环境准备：</p>
 
 <ol>
 <li><p><a href="https://item.taobao.com/item.htm?spm=2013.1.0.0.UqdfpT&amp;id=43751062868&amp;source=superboss&amp;appId=113">二代树莓派一个</a></p></li>
@@ -277,7 +278,8 @@
 
 <blockquote><p><code>观月堂</code>的小π还可以，配件就算了，相对别家来说有点贵，所以选了<code>telesky</code></p></blockquote>
 
-<p>参考资料：</p>
+<p><br>
+参考资料：</p>
 
 <ol>
 <li><p><a href="http://www.eeboard.com/bbs/forum.php?mod=viewthread&amp;tid=39728">树莓派用蜂鸣器实现整点报时</a></p></li>
