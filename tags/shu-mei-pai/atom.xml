@@ -96,7 +96,7 @@
   <title><![CDATA[标签: 树莓派 | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//tags/shu-mei-pai/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-07T00:15:49+08:00</updated>
+  <updated>2015-09-07T00:16:25+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -161,33 +161,6 @@
 <li><p>程序控制方便，单片机一个高低电平就可以让其发出声音，而无源蜂鸣器却做不到.</p></li>
 </ol>
 </blockquote>
-
-<ul>
-<li>首先找来了树莓派的接口图（我的小派是二代的）：</li>
-</ul>
-
-
-<p><img src="/images/pi_io.png" alt="树莓派接口图" /></p>
-
-<ul>
-<li>找来淘宝的蜂鸣器图片介绍：</li>
-</ul>
-
-
-<p><img src="/images/fengmingqi_io.png" alt="有源蜂鸣器结构图" /></p>
-
-<p><img src="/images/fengmingqi_io_shiwu.png" alt="有源蜂鸣器结构图" /></p>
-
-<p>标有 <code>+</code> 的就是蜂鸣器的正极，所以当把正极接到5V接口上，并把另一个接口接到随便一个IO口上时，有源蜂鸣器便正常工作了，如下图所示，黑线接的是正极，接到2口上，白线接到9口GPIO4上：</p>
-
-<p><img src="/images/fengmingqi_changxiang.png" alt="有源蜂鸣器长响，正常工作图" /></p>
-
-<ul>
-<li>证明蜂鸣器没有问题后，接下来就考虑怎么用python控制蜂鸣器了</li>
-</ul>
-
-
-<p>步骤和网上的差不多，我改了下程序：</p>
 ]]></content>
   </entry>
   
