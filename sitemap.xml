@@ -41,13 +41,19 @@
     <loc>http://www.17yuea.com//categories/</loc>
   </url>
   <url>
-    <loc>http://www.17yuea.com//tags/web/</loc>
+    <loc>http://www.17yuea.com//categories/web/</loc>
+  </url>
+  <url>
+    <loc>http://www.17yuea.com//categories/php/</loc>
   </url>
   <url>
     <loc>http://www.17yuea.com//tags/http/</loc>
   </url>
   <url>
     <loc>http://www.17yuea.com//tags/nginx/</loc>
+  </url>
+  <url>
+    <loc>http://www.17yuea.com//tags/web/</loc>
   </url>
   <url>
     <loc>http://www.17yuea.com//tags/php/</loc>
@@ -57,11 +63,5 @@
   </url>
   <url>
     <loc>http://www.17yuea.com//tags/xdebug/</loc>
-  </url>
-  <url>
-    <loc>http://www.17yuea.com//categories/web/</loc>
-  </url>
-  <url>
-    <loc>http://www.17yuea.com//categories/php/</loc>
   </url>
 </urlset>

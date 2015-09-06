@@ -96,7 +96,7 @@
   <title><![CDATA[标签: http | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//tags/http/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-06T14:39:59+08:00</updated>
+  <updated>2015-09-06T15:25:55+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -241,7 +241,7 @@
 
 <p>所以说 设置的 expire 是生效的。正常情况用户点链接的话，属于加载，不属于刷新，缓存的静态资源肯定会优先从本地cache获取，但是刷新的时候就避免不了一次http请求获取304了。</p>
 
-<hr />
+<h2><br></h2>
 
 <p><strong>Expire 和 ETag 都有缓存的作用，但是区别在于：</strong></p>
 
