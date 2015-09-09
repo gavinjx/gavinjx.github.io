@@ -96,7 +96,7 @@
   <title><![CDATA[标签: php | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//tags/php/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-09T11:27:30+08:00</updated>
+  <updated>2015-09-09T12:41:36+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -249,6 +249,18 @@ xdebug.profiler_output_dir="/data/app/php/var/log/xdebug/xdebug-profiler"
 <p><strong>记得重启php-fpm</strong></p>
 
 <p>配置完毕！可以设置断点调试了~</p>
+
+<hr />
+
+<p>更新：</p>
+
+<p>sublime text不支持多人调试的模式，经测试发现设置了<code>remote_connect_back=1</code>并注释掉<code>remote_host</code>后，sublime text无法与xdebug服务器进行通信，后来发现是需要 <a href="http://derickrethans.nl/debugging-with-multiple-users.html">DBGp代理</a>的.</p>
+
+<p>一般的IDE是集成的，并且sublime text xdebug界面也不是很友好，如果需要debug的时候感觉phpstorm比较顺手.</p>
+
+<p>对于 调试 Zendframework 也有了比较好的方法，由于Zendframework是做过路由的，因此没法进行 map 对应，之前看过一篇文章说的是在debug的时候做路由映射，我可能比较懒吧，想到了另一种方法：</p>
+
+<p>我们只设置一个 debug 文件，需要对 某个action进行debug的时候只需要引入这个controller，new 一个 controller 类，然后调用对应的action即可，经过测试，在action里的变量可以在debug文件中进行debug时完全可以捕获！</p>
 
 <p>[参考资料]</p>
 
