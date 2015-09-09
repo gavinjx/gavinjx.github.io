@@ -96,7 +96,7 @@
   <title><![CDATA[Category: php | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//categories/php/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-07T00:25:15+08:00</updated>
+  <updated>2015-09-09T11:22:54+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -110,12 +110,154 @@
     <link href="http://www.17yuea.com//php/2015/09/06/PHP%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7Xdebug/"/>
     <updated>2015-09-06T23:00:00+08:00</updated>
     <id>http://www.17yuea.com//php/2015/09/06/PHP调试工具Xdebug</id>
-    <content type="html"><![CDATA[<blockquote><p>刚刚过完了三天的小长假，假期没事的时候整理了一下Xdebug的使用.</p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>刚刚过完了三天的小长假，假期没事的时候整理了一下Xdebug的使用. 在测试服务器上装上也方便大家调试，提高大家的编码效率.</p></blockquote>
 
 <!--more-->
 
 
-<p>等待更新&hellip;</p>
+<p>先解释下xdebug等工作原理：</p>
+
+<p>进行xdebug调试，我们需要xdebug客户端和xdebug服务端，编译到php的就是服务端，客户端一般需要我们自己安装（像sublime text），或者一般的IDE都已经集成.</p>
+
+<p>当我们进行xdebug调试时，首先客户端会监听一个端口，然后等待xdebug服务端连接，连接成功则进行通信.如下图所示：</p>
+
+<p><img src="/images/php/xdebug/dbgp-setup.gif" alt="原理图" /></p>
+
+<p>本机的IP(也就是IDE的IP)是10.0.1.42，监听的是本机的9000端口；
+服务器的IP是10.0.1.2，连接的是80端口（web服务器默认端口）；</p>
+
+<p>所以在<code>php.ini</code>里我们的配置应该是这样的：</p>
+
+<pre><code class="bash">xdebug.remote_host=10.0.1.42
+xdebug.remote_port=9000 
+</code></pre>
+
+<p>(PS：如果本机开着php并运行在9000端口上，应该换一个端口)</p>
+
+<p>其中<code>remote_host</code> 就是xdebug服务器回调客户端的IP，也就是你进行xdebug调试的机器的IP</p>
+
+<blockquote><p>但是当我们有很多人进行远程调试的时候，这个<code>remote_host</code>不能动态变化，这样就没法满足所有人的调试需求了？</p></blockquote>
+
+<p>解决方法：在xdebug服务端有一个配置<code>xdebug.remote_connect_back</code>，这个值一旦设定为1就可以解决IP不是remote_host中值无法调试的问题，xdebug服务端可以从http请求的头部<code>$_SERVER['REMOTE_ADDR']</code>获取远程客户端的IP地址，如下图：</p>
+
+<p><img src="/images/php/xdebug/dbgp-setup2.gif" alt="原理图" /></p>
+
+<ul>
+<li>好了，讲完原理，我们看下怎么编译服务端的：</li>
+</ul>
+
+
+<p>从官网wget编译文件，解压安装包</p>
+
+<pre><code class="bash">[root@web4 software]# tar -zvxf xdebug-2.3.3.tgz
+[root@web4 software]# cd xdebug-2.3.3
+</code></pre>
+
+<p>其中 <code>README</code> 中有关于安装的详细步骤，我的php安装路径为：/data/app/php</p>
+
+<pre><code class="bash ">[root@web4 xdebug-2.3.3]# /data/app/php/bin/phpize
+[root@web4 xdebug-2.3.3]# ./configure --enable-xdebug --with-php-config=/data/app/php/bin/php-config
+make &amp;&amp; make install
+</code></pre>
+
+<p>配置php.ini</p>
+
+<pre><code class="bash">[xdebug]
+zend_extension="xdebug.so"
+xdebug.auto_trace=true
+xdebug.remote_enable=1
+xdebug.remote_autostart=1
+xdebug.remote_handler=dbgp
+xdebug.remote_host=192.168.0.116
+xdebug.remote_connect_back=1
+xdebug.remote_port=9090
+xdebug.idekey=web
+xdebug.remote_log="/data/app/php/var/log/xdebug/xdebug.log"
+xdebug.profiler_enable=1
+xdebug.profiler_output_dir="/data/app/php/var/log/xdebug/xdebug-profiler"
+;xdebug.dump_once = On  
+;xdebug.dump_globals = On  
+;xdebug.dump_undefined = On  
+;xdebug.dump.SERVER = REQUEST_METHOD,REQUEST_URI,HTTP_USER_AGENT  
+;xdebug.dump.REQUEST=*  
+;xdebug.show_exception_trace = On  
+;xdebug.show_local_vars = 1  
+;xdebug.var_display_max_depth = 6 
+</code></pre>
+
+<ul>
+<li>现在用sublime text3来说下怎么配置客户端</li>
+</ul>
+
+
+<p>安装 package <code>Xdebug Client</code></p>
+
+<p>新建一个 project 并且执行 <code>项目=&gt;项目另存为</code>,并且已经成功设置 sftp</p>
+
+<p>编辑存储后的project文件</p>
+
+<pre><code class="json">{
+    "folders":
+    [
+        {
+            "path": "/MyLocalProjectPath/xdebug"
+        }
+    ],
+    "settings": {
+        "xdebug": {
+                "url": "http://RemoteAddr/xdebug/index.php",
+             "path_mapping": {  
+                "/MyLocalProjectPath/xdebug/" : "/RemoteProjectLocation/xdebug/"  
+            },
+            "ide_key": "web",
+            "super_globals": true,  
+            "close_on_stop": true,  
+            "port": 9090,
+            "debug": true
+        }
+    }
+
+}
+</code></pre>
+
+<p>新加入的代码如下：</p>
+
+<pre><code class="json">"settings": {
+    "xdebug": {
+        "url": "http://RemoteAddr/xdebug/index.php",
+         "path_mapping": {  
+            "/MyLocalProjectPath/xdebug/" : "/RemoteProjectLocation/xdebug/"  
+        },
+        "ide_key": "web",
+        "super_globals": true,  
+        "close_on_stop": true,  
+        "port": 9090,
+        "debug": true
+    }
+}
+</code></pre>
+
+<p>如果是在本机进行调试，可以这样设置：</p>
+
+<pre><code class="json">"settings": {
+        "xdebug": {
+             "url": "http://localhost/xdebug"
+        }
+    }
+</code></pre>
+
+<p>配置完毕！可以设置断点调试了~</p>
+
+<p>[参考资料]</p>
+
+<ol>
+<li><p><a href="http://www.xdebug.org/docs/remote">官方文档</a></p></li>
+<li><p><a href="https://packagecontrol.io/packages/Xdebug%20Client">SublimeTextXdebug</a></p></li>
+<li><p><a href="http://www.jetbrains.com/phpstorm/help/configuring-xdebug.html">PhpStorm 9.0.0 Help/Configuring Xdebug</a></p></li>
+<li><p><a href="http://blog.csdn.net/yaoyuan_difang/article/details/11656759">使用netbeans进行PHP团队开发和基于xdebug进行多人远程调试</a></p></li>
+<li><p><a href="http://www.sitepoint.com/debugging-xdebug-sublime-text-3/">Debugging with Xdebug and Sublime Text 3</a></p></li>
+</ol>
+
 ]]></content>
   </entry>
   

@@ -125,12 +125,229 @@
 			<time datetime="2015-09-06T23:00:00+08:00" itemprop="datePublished">Sep  6</time> -->
 			</div>
 	</div>
-	<div class="entry-content" itemprop="articleBody"><blockquote><p>刚刚过完了三天的小长假，假期没事的时候整理了一下Xdebug的使用.</p></blockquote>
+	<div class="entry-content" itemprop="articleBody"><blockquote><p>刚刚过完了三天的小长假，假期没事的时候整理了一下Xdebug的使用. 在测试服务器上装上也方便大家调试，提高大家的编码效率.</p></blockquote>
 
 <!--more-->
 
 
-<p>等待更新&hellip;</p>
+<p>先解释下xdebug等工作原理：</p>
+
+<p>进行xdebug调试，我们需要xdebug客户端和xdebug服务端，编译到php的就是服务端，客户端一般需要我们自己安装（像sublime text），或者一般的IDE都已经集成.</p>
+
+<p>当我们进行xdebug调试时，首先客户端会监听一个端口，然后等待xdebug服务端连接，连接成功则进行通信.如下图所示：</p>
+
+<p><img src="/images/php/xdebug/dbgp-setup.gif" alt="原理图" /></p>
+
+<p>本机的IP(也就是IDE的IP)是10.0.1.42，监听的是本机的9000端口；
+服务器的IP是10.0.1.2，连接的是80端口（web服务器默认端口）；</p>
+
+<p>所以在<code>php.ini</code>里我们的配置应该是这样的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>xdebug.remote_host<span class="o">=</span>10.0.1.42
+</span><span class='line'>xdebug.remote_port<span class="o">=</span><span class="m">9000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(PS：如果本机开着php并运行在9000端口上，应该换一个端口)</p>
+
+<p>其中<code>remote_host</code> 就是xdebug服务器回调客户端的IP，也就是你进行xdebug调试的机器的IP</p>
+
+<blockquote><p>但是当我们有很多人进行远程调试的时候，这个<code>remote_host</code>不能动态变化，这样就没法满足所有人的调试需求了？</p></blockquote>
+
+<p>解决方法：在xdebug服务端有一个配置<code>xdebug.remote_connect_back</code>，这个值一旦设定为1就可以解决IP不是remote_host中值无法调试的问题，xdebug服务端可以从http请求的头部<code>$_SERVER['REMOTE_ADDR']</code>获取远程客户端的IP地址，如下图：</p>
+
+<p><img src="/images/php/xdebug/dbgp-setup2.gif" alt="原理图" /></p>
+
+<ul>
+<li>好了，讲完原理，我们看下怎么编译服务端的：</li>
+</ul>
+
+
+<p>从官网wget编译文件，解压安装包</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@web4 software<span class="o">]</span><span class="c"># tar -zvxf xdebug-2.3.3.tgz</span>
+</span><span class='line'><span class="o">[</span>root@web4 software<span class="o">]</span><span class="c"># cd xdebug-2.3.3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中 <code>README</code> 中有关于安装的详细步骤，我的php安装路径为：/data/app/php</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@web4 xdebug-2.3.3<span class="o">]</span><span class="c"># /data/app/php/bin/phpize</span>
+</span><span class='line'><span class="o">[</span>root@web4 xdebug-2.3.3<span class="o">]</span><span class="c"># ./configure --enable-xdebug --with-php-config=/data/app/php/bin/php-config</span>
+</span><span class='line'>make <span class="o">&amp;&amp;</span> make install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>配置php.ini</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>xdebug<span class="o">]</span>
+</span><span class='line'><span class="nv">zend_extension</span><span class="o">=</span><span class="s2">&quot;xdebug.so&quot;</span>
+</span><span class='line'>xdebug.auto_trace<span class="o">=</span><span class="nb">true</span>
+</span><span class='line'>xdebug.remote_enable<span class="o">=</span>1
+</span><span class='line'>xdebug.remote_autostart<span class="o">=</span>1
+</span><span class='line'>xdebug.remote_handler<span class="o">=</span>dbgp
+</span><span class='line'>xdebug.remote_host<span class="o">=</span>192.168.0.116
+</span><span class='line'>xdebug.remote_connect_back<span class="o">=</span>1
+</span><span class='line'>xdebug.remote_port<span class="o">=</span>9090
+</span><span class='line'>xdebug.idekey<span class="o">=</span>web
+</span><span class='line'>xdebug.remote_log<span class="o">=</span><span class="s2">&quot;/data/app/php/var/log/xdebug/xdebug.log&quot;</span>
+</span><span class='line'>xdebug.profiler_enable<span class="o">=</span>1
+</span><span class='line'>xdebug.profiler_output_dir<span class="o">=</span><span class="s2">&quot;/data/app/php/var/log/xdebug/xdebug-profiler&quot;</span>
+</span><span class='line'><span class="p">;</span>xdebug.dump_once <span class="o">=</span> On
+</span><span class='line'><span class="p">;</span>xdebug.dump_globals <span class="o">=</span> On
+</span><span class='line'><span class="p">;</span>xdebug.dump_undefined <span class="o">=</span> On
+</span><span class='line'><span class="p">;</span>xdebug.dump.SERVER <span class="o">=</span> REQUEST_METHOD,REQUEST_URI,HTTP_USER_AGENT
+</span><span class='line'><span class="p">;</span>xdebug.dump.REQUEST<span class="o">=</span>*
+</span><span class='line'><span class="p">;</span>xdebug.show_exception_trace <span class="o">=</span> On
+</span><span class='line'><span class="p">;</span>xdebug.show_local_vars <span class="o">=</span> <span class="m">1</span>
+</span><span class='line'><span class="p">;</span>xdebug.var_display_max_depth <span class="o">=</span> <span class="m">6</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>现在用sublime text3来说下怎么配置客户端</li>
+</ul>
+
+
+<p>安装 package <code>Xdebug Client</code></p>
+
+<p>新建一个 project 并且执行 <code>项目=&gt;项目另存为</code>,并且已经成功设置 sftp</p>
+
+<p>编辑存储后的project文件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;folders&quot;</span><span class="p">:</span>
+</span><span class='line'>  <span class="p">[</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/MyLocalProjectPath/xdebug&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">],</span>
+</span><span class='line'>  <span class="nt">&quot;settings&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;xdebug&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>              <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://RemoteAddr/xdebug/index.php&quot;</span><span class="p">,</span>
+</span><span class='line'>             <span class="nt">&quot;path_mapping&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nt">&quot;/MyLocalProjectPath/xdebug/&quot;</span> <span class="p">:</span> <span class="s2">&quot;/RemoteProjectLocation/xdebug/&quot;</span>
+</span><span class='line'>            <span class="p">},</span>
+</span><span class='line'>            <span class="nt">&quot;ide_key&quot;</span><span class="p">:</span> <span class="s2">&quot;web&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nt">&quot;super_globals&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>            <span class="nt">&quot;close_on_stop&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>            <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="mi">9090</span><span class="p">,</span>
+</span><span class='line'>            <span class="nt">&quot;debug&quot;</span><span class="p">:</span> <span class="kc">true</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>新加入的代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;settings&quot;</span><span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;xdebug&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://RemoteAddr/xdebug/index.php&quot;</span><span class="p">,</span>
+</span><span class='line'>         <span class="nt">&quot;path_mapping&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nt">&quot;/MyLocalProjectPath/xdebug/&quot;</span> <span class="p">:</span> <span class="s2">&quot;/RemoteProjectLocation/xdebug/&quot;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nt">&quot;ide_key&quot;</span><span class="p">:</span> <span class="s2">&quot;web&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;super_globals&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;close_on_stop&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="mi">9090</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;debug&quot;</span><span class="p">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是在本机进行调试，可以这样设置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;settings&quot;</span><span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;xdebug&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>             <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://localhost/xdebug&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>配置完毕！可以设置断点调试了~</p>
+
+<p>[参考资料]</p>
+
+<ol>
+<li><p><a href="http://www.xdebug.org/docs/remote">官方文档</a></p></li>
+<li><p><a href="https://packagecontrol.io/packages/Xdebug%20Client">SublimeTextXdebug</a></p></li>
+<li><p><a href="http://www.jetbrains.com/phpstorm/help/configuring-xdebug.html">PhpStorm 9.0.0 Help/Configuring Xdebug</a></p></li>
+<li><p><a href="http://blog.csdn.net/yaoyuan_difang/article/details/11656759">使用netbeans进行PHP团队开发和基于xdebug进行多人远程调试</a></p></li>
+<li><p><a href="http://www.sitepoint.com/debugging-xdebug-sublime-text-3/">Debugging with Xdebug and Sublime Text 3</a></p></li>
+</ol>
+
 </div>
 
 
