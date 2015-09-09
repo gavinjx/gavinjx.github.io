@@ -96,7 +96,7 @@
   <title><![CDATA[标签: 调试 | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//tags/diao-shi/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-09T11:22:54+08:00</updated>
+  <updated>2015-09-09T11:27:30+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -245,6 +245,8 @@ xdebug.profiler_output_dir="/data/app/php/var/log/xdebug/xdebug-profiler"
         }
     }
 </code></pre>
+
+<p><strong>记得重启php-fpm</strong></p>
 
 <p>配置完毕！可以设置断点调试了~</p>
 
