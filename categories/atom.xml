@@ -9,7 +9,7 @@
 	<meta name="author" content="Gavin Jx">
 
 	
-	<meta name="description" content="2015-09-16T00:31:14+08:00 http://www.17yuea.com// Octopress 2015-09-15T23:30:00+08:00 http://www.17yuea.com//web/php/2015/09/15/ &hellip;">
+	<meta name="description" content="2015-09-16T00:36:36+08:00 http://www.17yuea.com// Octopress 2015-09-15T23:30:00+08:00 http://www.17yuea.com//web/php/2015/09/15/ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +96,7 @@
   <title><![CDATA[一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-16T00:31:14+08:00</updated>
+  <updated>2015-09-16T00:36:36+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -110,7 +110,7 @@
     <link href="http://www.17yuea.com//web/php/2015/09/15/Diff_System_Account_Sync/"/>
     <updated>2015-09-15T23:30:00+08:00</updated>
     <id>http://www.17yuea.com//web/php/2015/09/15/Diff_System_Account_Sync</id>
-    <content type="html"><![CDATA[<blockquote><p>这几天做了一个事情：让两个系统间的帐号同步登录，简单说就是跨域登录.</p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>这两天在做：让两个系统间的帐号同步，其中涉及到跨域登录.</p></blockquote>
 
 <!-- more -->
 
