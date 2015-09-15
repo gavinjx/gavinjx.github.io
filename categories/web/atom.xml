@@ -96,7 +96,7 @@
   <title><![CDATA[Category: web | 一个PHPer的博客]]></title>
   <link href="http://www.17yuea.com//categories/web/atom.xml" rel="self"/>
   <link href="http://www.17yuea.com//"/>
-  <updated>2015-09-09T12:41:36+08:00</updated>
+  <updated>2015-09-16T00:31:14+08:00</updated>
   <id>http://www.17yuea.com//</id>
   <author>
     <name><![CDATA[Gavin Jx]]></name>
@@ -104,6 +104,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[不同系统间的账户登录-Cookie跨域]]></title>
+    <link href="http://www.17yuea.com//web/php/2015/09/15/Diff_System_Account_Sync/"/>
+    <updated>2015-09-15T23:30:00+08:00</updated>
+    <id>http://www.17yuea.com//web/php/2015/09/15/Diff_System_Account_Sync</id>
+    <content type="html"><![CDATA[<blockquote><p>这几天做了一个事情：让两个系统间的帐号同步登录，简单说就是跨域登录.</p></blockquote>
+
+<!-- more -->
+
+
+<p>背景是这样的：现在有两个系统SystemA和SystemB，要求在SystemA里可以注册SystemB的帐号，同时注册SystemB的时候需要依赖一个新的SystemA的帐号，并且要求在登录SystemB的时候同时登录SystemA的新帐号，并且在同一个浏览器内可以同时登录SystemA的初始帐号SA，SystemB的帐号SB和SystemA的新帐号SAN.</p>
+
+<p>系统SystemA和SystemB都是采用Cookie记录登录操作的. 因此需要同时有SA, SB, SAN三者的Cookie.</p>
+
+<p>解决方案是：使用三个域名（<code>abc.com</code>, <code>sb.abc.com</code>, <code>newsa.abc.com</code>）,其中SA访问<code>abc.com</code>进行登录, SAN访问<code>newsa.abc.com</code>进行登录, SB访问<code>sb.abc.com</code>进行登录. 其中<code>abc.com</code>和<code>newsa.abc.com</code>都指向SystemA, <code>sb.abc.com</code>指向SystemB. 这样SA登录的时候使用域<code>abc.com</code>的Cookie, SAN登录的时候使用<code>newsa.abc.com</code>的Cookie, SB登录的时候使用<code>sb.abc.com</code>的Cookie.</p>
+
+<ul>
+<li>跨域登录：其实很简单，首先使用SA登录<code>abc.com</code>，这时候已经种植了<code>abc.com</code>的Cookie, 然后用SB登录SystemB成功后种植了<code>sb.abc.com</code>的Cookie, 登录SystemB的时候动态生成一个script，该script的src指向<code>newsa.abc.com</code>的一个URL，该URL负责种植域<code>newsa.abc.com</code>下的Cookie（也就是采用动态载入异域的script解决跨域）.</li>
+</ul>
+
+
+<p>在<code>sb.abc.com</code>的登录页面ajax验证登录成功后执行下面的代码，动态引入<code>newsa.abc.com</code>的一个URL作为dom-script.</p>
+
+<blockquote><p>你可能会问为什么不在<code>sb.abc.com</code>直接种植<code>newsa.abc.com</code>下的Cookie呢？</p>
+
+<p>因为种不了，这属于跨域了. sb.abc.com可以种植sb.abc.com和abc.com下的Cookie, 无法在同级别的二级域名下种植Cookie.</p></blockquote>
+
+<pre><code class="javascript">function loadScript(url, callback, callbackData){ 
+    var script = document.createElement("script") 
+    script.type = "text/javascript"; 
+    if (script.readyState){ //IE 
+        script.onreadystatechange = function(){ 
+            if (script.readyState == "loaded" || 
+                script.readyState == "complete"){ 
+                script.onreadystatechange = null; 
+                callback(callbackData); 
+            } 
+        }; 
+    } else { //Others: Firefox, Safari, Chrome, and Opera 
+        script.onload = function(){ 
+            callback(callbackData);     
+        }; 
+    } 
+    script.src = url; 
+    document.body.appendChild(script); 
+} 
+
+loadScript('http://newsa.abc.com/project/setcookie', callback, callbackData) ;
+</code></pre>
+
+<p>嗯，还支持简单的回调 ~</p>
+
+<ul>
+<li>父域和子域Cookie的发送优先级</li>
+</ul>
+
+
+<p>没错，通过上面的异步引入<code>newsa.abc.com</code>一个种植Cookie的URL我们可以成功种植Cookie.</p>
+
+<p>But, 当我们访问<code>newsa.abc.com</code>的时候发现浏览器在Header里发送的不是 <code>newsa.abc.com</code>的Cookie, 而是<code>abc.com</code>的Cookie. 即当父域和子域的Cookie同时存在时访问子域的URL，浏览器会优先发送父域的Cookie.</p>
+
+<p>我们翻阅下种植Cookie的方法：</p>
+
+<pre><code class="php">bool setcookie ( string $name [, string $value [, int $expire = 0 [, string $path [, string $domain [, bool $secure = false [, bool $httponly = false ]]]]]] )
+</code></pre>
+
+<p><code>path</code> 就是我们解决问题的关键，由于项目正好不是在域名下的<code>'/'根目录</code>，所以对于子域的Cookie, 我们种植到项目目录下，父域的Cookie还是种植到<code>'/'根目录</code>, 假设项目目录为：<code>/project</code>，当访问<code>abc.com/project</code>下的URI时，发送的是<code>abc.com</code>的Cookie, 访问<code>newsa.abc.com/project</code>的URI时，发送的是<code>newsa.abc.com</code>的Cookie（因为我们设置了newsa.abc.com的Cookie的path，所以优先发送. ）</p>
+
+<p>当然我们完全可以将<code>newsa.abc.com</code>替换成<code>def.com</code>，这样就不涉及子域，父域的Cookie共享问题了，但是我们有自己的业务考虑，使用<code>newsa.abc.com</code>对用户来说更能体现我们业务的紧密型.</p>
+
+<p><br></p>
+
+<p>总结下Cookie的跨域共享：</p>
+
+<ol>
+<li>在可读取的path下子域可以共享父域的Cookie，同时如果二者都存在，优先使用匹配当前path的Cookie.</li>
+<li>不同的子域之间不能种植Cookie.</li>
+<li>子域可以种植父域的Cookie.</li>
+<li>父域不可以种植子域的Cookie.</li>
+<li>父域不可以共享子域的Cookie.</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索]]></title>
