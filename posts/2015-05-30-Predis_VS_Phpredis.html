@@ -1,0 +1,567 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Predis和Phpredis性能测试对比 - 一个phper的博客</title>
+	<meta name="author" content="Gavin">
+
+	
+	<meta name="description" content="Hello World">
+	<meta name="keywords" content="predis phpredis">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="" rel="alternate" title="一个phper的博客" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://guojianxiang.com/posts/2015-05-30-Predis_VS_Phpredis.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/customer.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<link href='/stylesheets/font-nunito.css' rel='stylesheet' type='text/css'>
+	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+	<script src="/javascripts/jquery-1.7.2.min.js"></script>
+	
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src="/images/profile.png" alt="Profile Picture" style="width: 160px;" />
+	<!-- 
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("guojianxiang@17yuea.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	 -->
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">首页</a></li>
+    <li><a href="/archives/">文章</a></li>
+    <li><a href="/tags/">标签</a></li>
+    <li><a href="/about/">关于我</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="email" href="mailto:guojianxiang@17yuea.com" title="Email">Email</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+    	<!--  -->
+	</div>
+	
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <link href="/stylesheets/pygments.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+	<h1 class="title" itemprop="name">Predis和Phpredis性能测试对比</h1>
+	<div class="meta">
+		<div class="date">
+			
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2015-05-30T20:20:00+08:00" data-updated="true" itemprop="datePublished">May 30</time>
+			<!-- 
+			
+			
+
+			
+			
+			
+
+			
+			  
+			
+			<time datetime="2015-05-30T20:20:00+08:00" itemprop="datePublished">May 30</time> -->
+			</div>
+	</div>
+	<div class="entry-content" itemprop="articleBody"><p>最近签到功能并发量有点大，php的slow log里记录的大部分日志都是关于redis的，我们线上环境是通过predis连接redis服务器的，phpredis是C预言扩展，理论上要比predis快，所以做了一下性能对比.</p>
+
+<!-- more -->
+
+
+<p>测试环境：</p>
+
+<p><img src="/images/system/mac.jpg" alt="配置" /></p>
+
+<ul>
+<li>单连接本地、循环执行命令测试：</li>
+</ul>
+
+
+<p><em>usePredis.php</em></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">require</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/predis/autoload.php&#39;</span> <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function</span> <span class="nf">getMillisecond</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">list</span><span class="p">(</span><span class="nv">$s1</span><span class="p">,</span> <span class="nv">$s2</span><span class="p">)</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="nb">microtime</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="nx">float</span><span class="p">)</span><span class="nb">sprintf</span><span class="p">(</span><span class="s1">&#39;%.0f&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">floatval</span><span class="p">(</span><span class="nv">$s1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">floatval</span><span class="p">(</span><span class="nv">$s2</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Predis\Client</span><span class="p">([</span>
+</span><span class='line'>    <span class="s1">&#39;scheme&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;tcp&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;host&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;port&#39;</span>   <span class="o">=&gt;</span> <span class="mi">6379</span>
+</span><span class='line'><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$sTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">100000</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;gjx&#39;</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nv">$eTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="nb">var_dump</span><span class="p">(</span><span class="nv">$eTime</span><span class="o">-</span><span class="nv">$sTime</span><span class="p">)</span> <span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>取三组数据：</p>
+
+<table>
+<thead>
+<tr>
+<th> 记录 </th>
+<th> predis </th>
+<th> phpredis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 1 </td>
+<td> 5485 </td>
+<td> 3950 </td>
+</tr>
+<tr>
+<td> 2 </td>
+<td> 5343 </td>
+<td> 3974 </td>
+</tr>
+<tr>
+<td> 3 </td>
+<td> 6697 </td>
+<td> 3814 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>取平均数：predis：5841.7毫秒 phpredis：3912.7毫秒</p>
+
+<p>结果：单连接本地 单命令下 phpredis比predis快1/3</p>
+
+<ul>
+<li>predis pipelining和默认模式性能对比：</li>
+</ul>
+
+
+<p>翻开predis的README的时候发现predis支持pipelining模式，可以一次发送多个命令不用等待回复，最后一次读取所有的回复,管道模式能有效地节约网络延迟时间，所以理论上是要比默认一个命令一次tcp请求的模式快的.
+Redis是一个cs模式的tcp server，使用和http类似的请求响应协议。一个client可以通过一个socket连接发起多个请求命令。每个请求命令发出后client通常 会阻塞并等待redis服务处理，redis处理完后请求命令后会将结果通过响应报文返回给client。
+当客户端用pipelining发送命令时，服务器端会在内存中使用队列存储所有的回复。如果客户端发送大量的命令，最好一次发送合理数量的命令，比如一次发送10k，然后读取回复，再发送另外的10k命令。这样可以保证每一次的速度大致相同，但是额外的内存用来存储保存着回复的队列。pipelining不能使用的情形是在客户端调用写命令前先回复读取命令。</p>
+
+<p>1.本地 pipe VS default</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">require</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/predis/autoload.php&#39;</span> <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function</span> <span class="nf">getMillisecond</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">list</span><span class="p">(</span><span class="nv">$s1</span><span class="p">,</span> <span class="nv">$s2</span><span class="p">)</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="nb">microtime</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="nx">float</span><span class="p">)</span><span class="nb">sprintf</span><span class="p">(</span><span class="s1">&#39;%.0f&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">floatval</span><span class="p">(</span><span class="nv">$s1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">floatval</span><span class="p">(</span><span class="nv">$s2</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Predis\Client</span><span class="p">([</span>
+</span><span class='line'>    <span class="s1">&#39;scheme&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;tcp&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;host&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;port&#39;</span>   <span class="o">=&gt;</span> <span class="mi">6379</span>
+</span><span class='line'><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$sTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">100000</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// $result = $client-&gt;set(&#39;admin&#39;, &#39;gjx&#39;) ;</span>
+</span><span class='line'>    <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nv">$eTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="nb">var_dump</span><span class="p">(</span><span class="nv">$eTime</span><span class="o">-</span><span class="nv">$sTime</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$sTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="nv">$responses</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">pipeline</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$pipe</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">100000</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// $pipe-&gt;set(&#39;admin&#39;, &#39;gjx&#39;) ;</span>
+</span><span class='line'>        <span class="nv">$pipe</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">&quot;admin&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nv">$eTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="nb">var_dump</span><span class="p">(</span><span class="nv">$eTime</span><span class="o">-</span><span class="nv">$sTime</span><span class="p">)</span> <span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>取三组数据：</p>
+
+<table>
+<thead>
+<tr>
+<th> 记录 </th>
+<th> tcp </th>
+<th> pipe </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 1 </td>
+<td> 5366 </td>
+<td> 1474 </td>
+</tr>
+<tr>
+<td> 2 </td>
+<td> 5587 </td>
+<td> 1491 </td>
+</tr>
+<tr>
+<td> 3 </td>
+<td> 5804 </td>
+<td> 1511 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>取平均数：tcp：5585.7毫秒 pipe：1492.0毫秒</p>
+
+<p>pipe模式快于tcp将近75%，这仅仅是本机测试结果而已。</p>
+
+<p>2.下面看看真正网络传输情况下的对比：</p>
+
+<p>这次连接 ip为：192.168.0.210 局域网内的机器，为了能尽快的出现结果，将循环数改为10000</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">require</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/predis/autoload.php&#39;</span> <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function</span> <span class="nf">getMillisecond</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">list</span><span class="p">(</span><span class="nv">$s1</span><span class="p">,</span> <span class="nv">$s2</span><span class="p">)</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="nb">microtime</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="nx">float</span><span class="p">)</span><span class="nb">sprintf</span><span class="p">(</span><span class="s1">&#39;%.0f&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">floatval</span><span class="p">(</span><span class="nv">$s1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">floatval</span><span class="p">(</span><span class="nv">$s2</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Predis\Client</span><span class="p">([</span>
+</span><span class='line'>    <span class="s1">&#39;scheme&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;tcp&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;host&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;192.168.0.210&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;port&#39;</span>   <span class="o">=&gt;</span> <span class="mi">6379</span>
+</span><span class='line'><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$sTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// $result = $client-&gt;set(&#39;admin&#39;, &#39;gjx&#39;) ;</span>
+</span><span class='line'>    <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nv">$eTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="nb">var_dump</span><span class="p">(</span><span class="nv">$eTime</span><span class="o">-</span><span class="nv">$sTime</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$sTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="nv">$responses</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">pipeline</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$pipe</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// $pipe-&gt;set(&#39;admin&#39;, &#39;gjx&#39;) ;</span>
+</span><span class='line'>        <span class="nv">$pipe</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">&quot;admin&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nv">$eTime</span> <span class="o">=</span> <span class="nx">getMillisecond</span><span class="p">()</span> <span class="p">;</span>
+</span><span class='line'><span class="nb">var_dump</span><span class="p">(</span><span class="nv">$eTime</span><span class="o">-</span><span class="nv">$sTime</span><span class="p">)</span> <span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>取三组数据：</p>
+
+<table>
+<thead>
+<tr>
+<th> 记录 </th>
+<th> tcp </th>
+<th> pipe </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 1 </td>
+<td> 29071 </td>
+<td> 127 </td>
+</tr>
+<tr>
+<td> 2 </td>
+<td> 29540 </td>
+<td> 143 </td>
+</tr>
+<tr>
+<td> 3 </td>
+<td> 29160 </td>
+<td> 124 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>取平均数：tcp：29257.0毫秒 pipe：131.3毫秒</p>
+
+<p>这次可以看出pipeling的绝对优势了！所以将互不影响的操作能够放到pipeling里能绝对的提升性能!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">由 <span class="fn">Gavin</span> 发表，</span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2015-05-30T20:20:00+08:00" class="updated" itemprop="dateModified"> 2015-05-30 20:20 </time> 更新  | 
+      
+
+
+	<a class='category' href='/categories/redis/'>redis</a>
+
+
+
+      
+
+<span class="tags">
+  
+    <a class='tag' href='/tags/redis/'>Redis</a>, <a class='tag' href='/tags/web/'>Web</a>
+  
+</span>
+
+
+    </p>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/posts/2015-05-30-HelloWorld.html" title="Previous Post: Hello World">&laquo; Hello World</a>
+      
+      
+        <a class="basic-alignment right" href="/posts/2015-09-01-About_HttpStatus200_FromCache_And_304_NotModified.html" title="Next Post: 关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索">关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+
+<!-- 多说 -->
+
+  <section>
+   
+
+
+<!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="/posts/Predis_VS_Phpredis" data-title="Predis和Phpredis性能测试对比" data-url="http://guojianxiang.com/posts/2015-05-30-Predis_VS_Phpredis.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"gavinjx"};
+    (function() {
+
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+     })();
+ </script>
+ <!-- 多说公共JS代码 end -->
+ 
+  </section>
+
+<aside class="sidebar">
+  
+    <!--  -->
+  
+</aside>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    Gavin
+ <a target="_blank" href='http://www.miibeian.gov.cn/'>京ICP备15048929号-2</a>
+<br>
+Powered by <a href='https://github.com/shashankmehta/greyshade' target="_blank">GreyShade</a>
+
+</footer>
+		</div>
+	</div>
+	
+
+<script type="text/javascript">
+      var disqus_shortname = 'guojianxiang';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://guojianxiang.com/posts/2015-05-30-Predis_VS_Phpredis.html';
+        var disqus_url = 'http://guojianxiang.com/posts/2015-05-30-Predis_VS_Phpredis.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

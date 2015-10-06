@@ -5,8 +5,8 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索 - 一个PHPer的博客</title>
-	<meta name="author" content="Gavin Jx">
+	<title>关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索 - 一个phper的博客</title>
+	<meta name="author" content="Gavin">
 
 	
 	<meta name="description" content="问题的起源在于晚上把一个demo部署到阿里云上，在配置nginx的时候，设置了expire。但是当用Chrome检查Network的时候，发现已经设置了expire的css，js，image 总是返回304（Not Modified）的状态。因为之前服务器缓存资源出现返回304的问题， &hellip;">
@@ -17,9 +17,9 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link href="" rel="alternate" title="一个PHPer的博客" type="application/atom+xml">
+	<link href="" rel="alternate" title="一个phper的博客" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://www.17yuea.com//web/2015/09/01/%E5%85%B3%E4%BA%8E%20HttpStatus%20200%EF%BC%88From%20Cache%EF%BC%89%E5%92%8C%20304%EF%BC%88Not%20Modified%EF%BC%89%E7%9A%84%E6%8E%A2%E7%B4%A2/">
+	<link rel="canonical" href="http://guojianxiang.com/posts/2015-09-01-About_HttpStatus200_FromCache_And_304_NotModified.html">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -53,9 +53,9 @@
 
 <nav id="main-nav"><ul class="main">
     <li><a href="/">首页</a></li>
-    <li><a href="/archives">文章</a></li>
-    <li><a href="/tags">标签</a></li>
-    <li><a href="/about">关于我</a></li>
+    <li><a href="/archives/">文章</a></li>
+    <li><a href="/tags/">标签</a></li>
+    <li><a href="/about/">关于我</a></li>
 </ul>
 </nav>
 <nav id="sub-nav">
@@ -355,7 +355,7 @@
       
   
 
-<span class="byline author vcard">由 <span class="fn">Gavin Jx</span> 发表，</span>
+<span class="byline author vcard">由 <span class="fn">Gavin</span> 发表，</span>
 
       
 
@@ -392,16 +392,22 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2015/05/30/HelloWorld/" title="Previous Post: Hello World">&laquo; Hello World</a>
+        <a class="basic-alignment left" href="/posts/2015-05-30-Predis_VS_Phpredis.html" title="Previous Post: Predis和Phpredis性能测试对比">&laquo; Predis和Phpredis性能测试对比</a>
       
       
-        <a class="basic-alignment right" href="/php/2015/09/06/PHP%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7Strace/" title="Next Post: PHP调试工具-Strace">PHP调试工具-Strace &raquo;</a>
+        <a class="basic-alignment right" href="/posts/2015-09-06-PHP_Debug_Tool_Strace.html" title="Next Post: PHP调试工具-Strace">PHP调试工具-Strace &raquo;</a>
       
     </p>
   </footer>
 </article>
 
-<!--  -->
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+
 <!-- 多说 -->
 
   <section>
@@ -409,7 +415,7 @@
 
 
 <!-- 多说评论框 start -->
-<div class="ds-thread" data-thread-key="/web/2015/09/01/关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索" data-title="关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索" data-url="http://www.17yuea.com//web/2015/09/01/%E5%85%B3%E4%BA%8E%20HttpStatus%20200%EF%BC%88From%20Cache%EF%BC%89%E5%92%8C%20304%EF%BC%88Not%20Modified%EF%BC%89%E7%9A%84%E6%8E%A2%E7%B4%A2/"></div>
+<div class="ds-thread" data-thread-key="/posts/About_HttpStatus200_FromCache_And_304_NotModified" data-title="关于 HttpStatus 200（From Cache）和 304（Not Modified）的探索" data-url="http://guojianxiang.com/posts/2015-09-01-About_HttpStatus200_FromCache_And_304_NotModified.html"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -427,7 +433,7 @@
  <!-- 多说公共JS代码 end -->
  
   </section>
- 
+
 <aside class="sidebar">
   
     <!--  -->
@@ -437,12 +443,31 @@
 			</div>
 			<footer id="footer" class="inner">Copyright &copy; 2015
 
-    Gavin Jx
+    Gavin
+ <a target="_blank" href='http://www.miibeian.gov.cn/'>京ICP备15048929号-2</a>
+<br>
+Powered by <a href='https://github.com/shashankmehta/greyshade' target="_blank">GreyShade</a>
 
 </footer>
 		</div>
 	</div>
 	
+
+<script type="text/javascript">
+      var disqus_shortname = 'guojianxiang';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://guojianxiang.com/posts/2015-09-01-About_HttpStatus200_FromCache_And_304_NotModified.html';
+        var disqus_url = 'http://guojianxiang.com/posts/2015-09-01-About_HttpStatus200_FromCache_And_304_NotModified.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 

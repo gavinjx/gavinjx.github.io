@@ -1,0 +1,225 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>标签: OSX - 一个phper的博客</title>
+	<meta name="author" content="Gavin">
+
+	
+	<meta name="description" content="标签: OSX">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="" rel="alternate" title="一个phper的博客" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://guojianxiang.com/tags/osx/atom.xml">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/customer.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<link href='/stylesheets/font-nunito.css' rel='stylesheet' type='text/css'>
+	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+	<script src="/javascripts/jquery-1.7.2.min.js"></script>
+	
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src="/images/profile.png" alt="Profile Picture" style="width: 160px;" />
+	<!-- 
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("guojianxiang@17yuea.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	 -->
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">首页</a></li>
+    <li><a href="/archives/">文章</a></li>
+    <li><a href="/tags/">标签</a></li>
+    <li><a href="/about/">关于我</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="email" href="mailto:guojianxiang@17yuea.com" title="Email">Email</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+    	<!--  -->
+	</div>
+	
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[标签: OSX | 一个phper的博客]]></title>
+  <link href="http://guojianxiang.com/tags/osx/atom.xml" rel="self"/>
+  <link href="http://guojianxiang.com/"/>
+  <updated>2015-10-06T16:22:48+08:00</updated>
+  <id>http://guojianxiang.com/</id>
+  <author>
+    <name><![CDATA[Gavin]]></name>
+    <email><![CDATA[guojianxiang@17yuea.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[关于 OSX 升级到 EI Captain 的解决方案]]></title>
+    <link href="http://guojianxiang.com/posts/2015-10-06-Update_OSX_EI_Captain_Problems.html"/>
+    <updated>2015-10-06T23:00:00+08:00</updated>
+    <id>http://guojianxiang.com/posts/Update_OSX_EI_Captain_Problems</id>
+    <content type="html"><![CDATA[<p>昨天把OSX升级到了 EI Captain，然后就遇到了各种奇怪问题。</p>
+
+<!--more-->
+
+
+<ul>
+<li><p>刚开始只是发现QQ变成英文了 => 没问题，重新安装了一遍好了&hellip;</p></li>
+<li><p>然后下午发现 Sequel 连接不到远程服务器，发现是 ssh 无法使用公钥的问题，删除<code>~/.ssh/known_hosts</code>（已经提前备份）后，发现还是不可以，重装后依然不行。最后下载了更高版本的 Sequel 没问题了&hellip;</p></li>
+<li><p>后来要更新blog的时候，发现ruby不能使用，（ 因为blog使用的是Octopress ），ruby各种报权限不足的Error，什么鬼？</p></li>
+</ul>
+
+
+<p>查看了下EI Captain的更新说明，原来是<code>Rootless</code>惹的祸：</p>
+
+<blockquote><p>一句话总结，即使是root用户，将无法对以下路径有写和执行权限：</p>
+
+<p>/System</p>
+
+<p>/bin</p>
+
+<p>/sbin</p>
+
+<p>/usr (except /usr/local)</p>
+
+<p>只有Apple自身签名的软件（含命令行工具）可以。</p></blockquote>
+
+<p>尝试关掉<code>Rootless</code>：</p>
+
+<pre><code class="bash">gavin:octopress gavin$ sudo nvram boot-args="kext-dev-mode=1 rootless=0";sudo reboot
+</code></pre>
+
+<p>重启后依然不行，再更新下 CommandLine Tool，新版本的XCode竟然把之前的CommandLine Tool删除了，从官网下载后进行了安装。</p>
+
+<p>然后自定义GEM_HOME：</p>
+
+<pre><code class="bash">#Add For Custom Ruby
+export GEM_HOME=/data/app/ruby
+export PATH=$PATH:$GEM_HOME/bin
+</code></pre>
+
+<pre><code class="bash">gavin:octopress gavin$ gem update
+gavin:octopress gavin$ gem install bundler
+gavin:octopress gavin$ bundle install # install RedCloth
+gavin:octopress gavin$ gem install jekyll
+gavin:octopress gavin$ gem install compass
+gavin:octopress gavin$ rake generate
+</code></pre>
+
+<p>Success!</p>
+
+<p>brew也受到了影响，把/usr/local的权限设置成 <code>755</code>，并重新update
+update过程中会报错：brew update failure while executing git checkout
+执行以下命令：</p>
+
+<pre><code class="bash">$ cd `brew --prefix`
+$ git remote add origin https://github.com/Homebrew/homebrew.git
+$ git fetch origin
+$ git reset --hard origin/master
+$ brew update
+</code></pre>
+
+<p>新机制Rootless出现后，很多软件安装都不能放到<code>/usr</code>下了，重新改变软件路径就可以了。</p>
+
+<p>[参考资料]</p>
+
+<ol>
+<li><p><a href="http://www.zhihu.com/question/31116473">在 OS X 10.11 中引入的 Rootless 是如何实现的？有什么优势与缺陷？</a></p></li>
+<li><p><a href="http://stackoverflow.com/questions/9370552/brew-update-failure-while-executing-git-checkout">brew update failure while executing git checkout</a></p></li>
+<li><p><a href="http://segmentfault.com/q/1010000002926243">安装Cocoapods，更新gem出现的问题</a></p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    Gavin
+ <a target="_blank" href='http://www.miibeian.gov.cn/'>京ICP备15048929号-2</a>
+<br>
+Powered by <a href='https://github.com/shashankmehta/greyshade' target="_blank">GreyShade</a>
+
+</footer>
+		</div>
+	</div>
+	
+
+<script type="text/javascript">
+      var disqus_shortname = 'guojianxiang';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

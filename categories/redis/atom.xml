@@ -1,0 +1,375 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Category: redis - 一个phper的博客</title>
+	<meta name="author" content="Gavin">
+
+	
+	<meta name="description" content="Category: redis">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="" rel="alternate" title="一个phper的博客" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://guojianxiang.com/categories/redis/atom.xml">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/customer.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<link href='/stylesheets/font-nunito.css' rel='stylesheet' type='text/css'>
+	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+	<script src="/javascripts/jquery-1.7.2.min.js"></script>
+	
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src="/images/profile.png" alt="Profile Picture" style="width: 160px;" />
+	<!-- 
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("guojianxiang@17yuea.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	 -->
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">首页</a></li>
+    <li><a href="/archives/">文章</a></li>
+    <li><a href="/tags/">标签</a></li>
+    <li><a href="/about/">关于我</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="email" href="mailto:guojianxiang@17yuea.com" title="Email">Email</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+    	<!--  -->
+	</div>
+	
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: redis | 一个phper的博客]]></title>
+  <link href="http://guojianxiang.com/categories/redis/atom.xml" rel="self"/>
+  <link href="http://guojianxiang.com/"/>
+  <updated>2015-10-06T16:22:48+08:00</updated>
+  <id>http://guojianxiang.com/</id>
+  <author>
+    <name><![CDATA[Gavin]]></name>
+    <email><![CDATA[guojianxiang@17yuea.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Predis和Phpredis性能测试对比]]></title>
+    <link href="http://guojianxiang.com/posts/2015-05-30-Predis_VS_Phpredis.html"/>
+    <updated>2015-05-30T20:20:00+08:00</updated>
+    <id>http://guojianxiang.com/posts/Predis_VS_Phpredis</id>
+    <content type="html"><![CDATA[<p>最近签到功能并发量有点大，php的slow log里记录的大部分日志都是关于redis的，我们线上环境是通过predis连接redis服务器的，phpredis是C预言扩展，理论上要比predis快，所以做了一下性能对比.</p>
+
+<!-- more -->
+
+
+<p>测试环境：</p>
+
+<p><img src="/images/system/mac.jpg" alt="配置" /></p>
+
+<ul>
+<li>单连接本地、循环执行命令测试：</li>
+</ul>
+
+
+<p><em>usePredis.php</em></p>
+
+<pre><code class="php">&lt;?php 
+require __DIR__.'/predis/autoload.php' ;
+
+function getMillisecond() { 
+    list($s1, $s2) = explode(' ', microtime()); 
+    return (float)sprintf('%.0f', (floatval($s1) + floatval($s2)) * 1000); 
+} 
+
+$client = new Predis\Client([
+    'scheme' =&gt; 'tcp',
+    'host'   =&gt; '127.0.0.1',
+    'port'   =&gt; 6379
+]);
+
+$sTime = getMillisecond() ;
+for ($i=0; $i &lt; 100000; $i++) { 
+    $result = $client-&gt;set('admin', 'gjx') ;
+}
+$eTime = getMillisecond() ;
+var_dump($eTime-$sTime) ;
+</code></pre>
+
+<p>取三组数据：</p>
+
+<table>
+<thead>
+<tr>
+<th> 记录 </th>
+<th> predis </th>
+<th> phpredis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 1 </td>
+<td> 5485 </td>
+<td> 3950 </td>
+</tr>
+<tr>
+<td> 2 </td>
+<td> 5343 </td>
+<td> 3974 </td>
+</tr>
+<tr>
+<td> 3 </td>
+<td> 6697 </td>
+<td> 3814 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>取平均数：predis：5841.7毫秒 phpredis：3912.7毫秒</p>
+
+<p>结果：单连接本地 单命令下 phpredis比predis快1/3</p>
+
+<ul>
+<li>predis pipelining和默认模式性能对比：</li>
+</ul>
+
+
+<p>翻开predis的README的时候发现predis支持pipelining模式，可以一次发送多个命令不用等待回复，最后一次读取所有的回复,管道模式能有效地节约网络延迟时间，所以理论上是要比默认一个命令一次tcp请求的模式快的.
+Redis是一个cs模式的tcp server，使用和http类似的请求响应协议。一个client可以通过一个socket连接发起多个请求命令。每个请求命令发出后client通常 会阻塞并等待redis服务处理，redis处理完后请求命令后会将结果通过响应报文返回给client。
+当客户端用pipelining发送命令时，服务器端会在内存中使用队列存储所有的回复。如果客户端发送大量的命令，最好一次发送合理数量的命令，比如一次发送10k，然后读取回复，再发送另外的10k命令。这样可以保证每一次的速度大致相同，但是额外的内存用来存储保存着回复的队列。pipelining不能使用的情形是在客户端调用写命令前先回复读取命令。</p>
+
+<p>1.本地 pipe VS default</p>
+
+<pre><code class="php">&lt;?php 
+require __DIR__.'/predis/autoload.php' ;
+
+function getMillisecond() { 
+    list($s1, $s2) = explode(' ', microtime()); 
+    return (float)sprintf('%.0f', (floatval($s1) + floatval($s2)) * 1000); 
+} 
+
+$client = new Predis\Client([
+    'scheme' =&gt; 'tcp',
+    'host'   =&gt; '127.0.0.1',
+    'port'   =&gt; 6379
+]);
+
+$sTime = getMillisecond() ;
+for ($i=0; $i &lt; 100000; $i++) { 
+    // $result = $client-&gt;set('admin', 'gjx') ;
+    $result = $client-&gt;get('admin') ;
+}
+$eTime = getMillisecond() ;
+var_dump($eTime-$sTime) ;
+
+$sTime = getMillisecond() ;
+$responses = $client-&gt;pipeline(function ($pipe) {
+    for ($i = 0; $i &lt; 100000; $i++) {
+        // $pipe-&gt;set('admin', 'gjx') ;
+        $pipe-&gt;get("admin");
+    }
+});
+$eTime = getMillisecond() ;
+var_dump($eTime-$sTime) ;
+</code></pre>
+
+<p>取三组数据：</p>
+
+<table>
+<thead>
+<tr>
+<th> 记录 </th>
+<th> tcp </th>
+<th> pipe </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 1 </td>
+<td> 5366 </td>
+<td> 1474 </td>
+</tr>
+<tr>
+<td> 2 </td>
+<td> 5587 </td>
+<td> 1491 </td>
+</tr>
+<tr>
+<td> 3 </td>
+<td> 5804 </td>
+<td> 1511 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>取平均数：tcp：5585.7毫秒 pipe：1492.0毫秒</p>
+
+<p>pipe模式快于tcp将近75%，这仅仅是本机测试结果而已。</p>
+
+<p>2.下面看看真正网络传输情况下的对比：</p>
+
+<p>这次连接 ip为：192.168.0.210 局域网内的机器，为了能尽快的出现结果，将循环数改为10000</p>
+
+<pre><code class="php">&lt;?php 
+require __DIR__.'/predis/autoload.php' ;
+
+function getMillisecond() { 
+    list($s1, $s2) = explode(' ', microtime()); 
+    return (float)sprintf('%.0f', (floatval($s1) + floatval($s2)) * 1000); 
+} 
+
+$client = new Predis\Client([
+    'scheme' =&gt; 'tcp',
+    'host'   =&gt; '192.168.0.210',
+    'port'   =&gt; 6379
+]);
+
+
+$sTime = getMillisecond() ;
+for ($i=0; $i &lt; 10000; $i++) { 
+    // $result = $client-&gt;set('admin', 'gjx') ;
+    $result = $client-&gt;get('admin') ;
+}
+$eTime = getMillisecond() ;
+var_dump($eTime-$sTime) ;
+
+$sTime = getMillisecond() ;
+$responses = $client-&gt;pipeline(function ($pipe) {
+    for ($i = 0; $i &lt; 10000; $i++) {
+        // $pipe-&gt;set('admin', 'gjx') ;
+        $pipe-&gt;get("admin");
+    }
+});
+$eTime = getMillisecond() ;
+var_dump($eTime-$sTime) ;
+</code></pre>
+
+<p>取三组数据：</p>
+
+<table>
+<thead>
+<tr>
+<th> 记录 </th>
+<th> tcp </th>
+<th> pipe </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 1 </td>
+<td> 29071 </td>
+<td> 127 </td>
+</tr>
+<tr>
+<td> 2 </td>
+<td> 29540 </td>
+<td> 143 </td>
+</tr>
+<tr>
+<td> 3 </td>
+<td> 29160 </td>
+<td> 124 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>取平均数：tcp：29257.0毫秒 pipe：131.3毫秒</p>
+
+<p>这次可以看出pipeling的绝对优势了！所以将互不影响的操作能够放到pipeling里能绝对的提升性能!</p>
+]]></content>
+  </entry>
+  
+</feed>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    Gavin
+ <a target="_blank" href='http://www.miibeian.gov.cn/'>京ICP备15048929号-2</a>
+<br>
+Powered by <a href='https://github.com/shashankmehta/greyshade' target="_blank">GreyShade</a>
+
+</footer>
+		</div>
+	</div>
+	
+
+<script type="text/javascript">
+      var disqus_shortname = 'guojianxiang';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

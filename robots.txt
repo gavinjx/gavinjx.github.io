@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://www.17yuea.com//sitemap.xml 
+Sitemap: http://guojianxiang.com/sitemap.xml 
